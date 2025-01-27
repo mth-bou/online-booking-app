@@ -68,5 +68,8 @@ services:
         arguments:
             $notificationRepository: '@App\Domain\Repository\NotificationRepositoryInterface'
             $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+
+    App\Application\Service\UserService:
+        arguments:
+            $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
+            $passwordHasher: '@security.password_hasher'
