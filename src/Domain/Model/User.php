@@ -28,6 +28,9 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
+    #[ORM\Column(length:20, nullable: true)]
+    private ?string $phoneNumber = null;
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -111,6 +114,18 @@ class User
     public function setLastname(?string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
