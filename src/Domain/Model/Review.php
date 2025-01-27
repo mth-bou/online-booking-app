@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Repository\ReviewRepository;
+use App\Infrastructure\Persistence\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]

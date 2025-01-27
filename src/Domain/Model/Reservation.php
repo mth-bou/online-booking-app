@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Repository\ReservationRepository;
+use App\Infrastructure\Persistence\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

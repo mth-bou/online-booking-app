@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Repository\NotificationRepository;
+use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]

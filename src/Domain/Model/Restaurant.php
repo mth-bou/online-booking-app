@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Repository\RestaurantRepository;
+use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

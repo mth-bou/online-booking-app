@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Repository\PaymentRepository;
+use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
