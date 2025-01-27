@@ -82,3 +82,9 @@ services:
             $restaurantRepository: '@App\Domain\Repository\RestaurantRepositoryInterface'
             $tableRepository: '@App\Domain\Repository\TableRepositoryInterface'
             $reviewRepository: '@App\Domain\Repository\ReviewRepositoryInterface'
+
+    App\Application\Service\ReviewService:
+        arguments:
+            $reviewRepository: '@App\Domain\Repository\ReviewRepositoryInterface'
+            $restaurantRepository: '@App\Domain\Repository\RestaurantRepositoryInterface'
+            $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
