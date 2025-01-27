@@ -5,12 +5,13 @@ namespace App\Infrastructure\Persistence\Repository;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use DateTime;
 
 class ReservationRepository implements ReservationRepositoryInterface
 {
     private EntityManagerInterface $em;
-    private $repository;
+    private ObjectRepository $repository;
 
     public function __construct(EntityManagerInterface $em)
     {
