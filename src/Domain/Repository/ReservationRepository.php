@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Repository;
 
-use App\Entity\Restaurant;
+use App\Domain\Model\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Restaurant>
+ * @extends ServiceEntityRepository<Reservation>
  */
-class RestaurantRepository extends ServiceEntityRepository
+class ReservationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Restaurant::class);
+        parent::__construct($registry, Reservation::class);
     }
 
 //    /**
-//     * @return Restaurant[] Returns an array of Restaurant objects
+//     * @return Reservation[] Returns an array of Reservation objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class RestaurantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Restaurant
+//    public function findOneBySomeField($value): ?Reservation
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')
