@@ -3,21 +3,34 @@
 namespace App\Application\Service;
 
 use App\Domain\Model\User;
+use App\Domain\Repository\NotificationRepositoryInterface;
+use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\Repository\ReviewRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
-use Exception;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Exception;
 
 class UserService
 {
     private UserRepositoryInterface $userRepository;
+    private ReservationRepositoryInterface $reservationRepository;
+    private ReviewRepositoryInterface $reviewRepository;
+    private NotificationRepositoryInterface $notificationRepository;
     private UserPasswordHasherInterface $passwordHasher;
+
 
     public function __construct(
         UserRepositoryInterface $userRepository,
+        ReservationRepositoryInterface $reservationRepository,
+        ReviewRepositoryInterface $reviewRepository,
+        NotificationRepositoryInterface $notificationRepository,
         UserPasswordHasherInterface $passwordHasher
     ) {
         $this->userRepository = $userRepository;
+        $this->reservationRepository = $reservationRepository;
+        $this->reviewRepository = $reviewRepository;
+        $this->notificationRepository = $notificationRepository;
         $this->passwordHasher = $passwordHasher;
     }
 
@@ -94,5 +107,30 @@ class UserService
         }
 
         $this->userRepository->delete($user);
+    }
+
+    public function getUserReservations(int $userId): array
+    {
+        return $this->reservationRepository->findByUser($userId);
+    }
+
+    public function getUserReviews(int $userId): array
+    {
+        return $this->reviewRepository->findByUser($userId);
+    }
+
+    public function getUserNotifications(int $userId): array
+    {
+        return $this->notificationRepository->findByUser($userId);
+    }
+
+    public function getUnreadNotifications(int $userId): array
+    {
+        return $this->notificationRepository->findUnreadByUser($userId);
+    }
+
+    public function markAllNotificationsAsRead(int $userId): void
+    {
+        $this->notificationRepository->markAllAsRead($userId);
     }
 }

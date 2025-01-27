@@ -72,6 +72,9 @@ services:
     App\Application\Service\UserService:
         arguments:
             $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
+            $reservationRepository: '@App\Domain\Repository\ReservationRepositoryInterface'
+            $reviewRepository: '@App\Domain\Repository\ReviewRepositoryInterface'
+            $notificationRepository: '@App\Domain\Repository\NotificationRepositoryInterface'
             $passwordHasher: '@security.password_hasher'
 
     App\Application\Service\RestaurantService:
