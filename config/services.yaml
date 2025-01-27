@@ -31,5 +31,9 @@ services:
     App\Domain\Repository\PaymentRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\PaymentRepository
         public: true
+
+    App\Domain\Repository\RestaurantRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Repository\RestaurantRepository
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
