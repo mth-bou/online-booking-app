@@ -63,5 +63,10 @@ services:
         arguments:
             $paymentRepository: '@App\Domain\Repository\PaymentRepositoryInterface'
             $reservationRepository: '@App\Domain\Repository\ReservationRepositoryInterface'
+
+    App\Application\Service\NotificationService:
+        arguments:
+            $notificationRepository: '@App\Domain\Repository\NotificationRepositoryInterface'
+            $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
