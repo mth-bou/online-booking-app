@@ -58,5 +58,10 @@ services:
             $tableRepository: '@App\Domain\Repository\TableRepositoryInterface'
             $timeSlotRepository: '@App\Domain\Repository\TimeSlotRepositoryInterface'
             $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
+
+    App\Application\Service\PaymentService:
+        arguments:
+            $paymentRepository: '@App\Domain\Repository\PaymentRepositoryInterface'
+            $reservationRepository: '@App\Domain\Repository\ReservationRepositoryInterface'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
