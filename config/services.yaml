@@ -27,5 +27,9 @@ services:
     App\Domain\Repository\NotificationRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\NotificationRepository
         public: true
+
+    App\Domain\Repository\PaymentRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Repository\PaymentRepository
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
