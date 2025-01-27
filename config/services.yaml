@@ -43,5 +43,9 @@ services:
     App\Domain\Repository\TableRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\TableRepository
         public: true
+
+    App\Domain\Repository\TimeSlotRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Repository\TimeSlotRepository
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
