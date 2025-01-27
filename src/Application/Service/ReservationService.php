@@ -60,4 +60,87 @@ class ReservationService
 
         return $reservation;
     }
+
+    public function cancelReservation(int $reservationId): void
+    {
+        $reservation = $this->reservationRepository->findById($reservationId);
+
+        if (!$reservation) {
+            throw new Exception("Reservation not found.");
+        }
+
+        $reservation->setStatus(Reservation::STATUS_CANCELLED);
+        $reservation->setUpdatedAt(new DateTimeImmutable());
+        $this->reservationRepository->save($reservation);
+    }
+
+    public function confirmReservation(int $reservationId): void
+    {
+        $reservation = $this->reservationRepository->findById($reservationId);
+
+        if (!$reservation) {
+            throw new Exception("Reservation not found.");
+        }
+
+        $reservation->setStatus(Reservation::STATUS_CONFIRMED);
+        $reservation->setUpdatedAt(new DateTimeImmutable());
+        $this->reservationRepository->save($reservation);
+    }
+
+    public function completeReservation(int $reservationId): void
+    {
+        $reservation = $this->reservationRepository->findById($reservationId);
+
+        if (!$reservation) {
+            throw new Exception("Reservation not found.");
+        }
+
+        $reservation->setStatus(Reservation::STATUS_COMPLETED);
+        $reservation->setUpdatedAt(new DateTimeImmutable());
+        $this->reservationRepository->save($reservation);
+    }
+
+    public function rejectReservation(int $reservationId): void
+    {
+        $reservation = $this->reservationRepository->findById($reservationId);
+        
+        if (!$reservation) {
+            throw new Exception("Reservation not found.");
+        }
+
+        $reservation->setStatus(Reservation::STATUS_REJECTED);
+        $reservation->setUpdatedAt(new DateTimeImmutable());
+        $this->reservationRepository->save($reservation);
+    }
+
+    public function getUserReservations(int $userId): array
+    {
+        return $this->reservationRepository->findByUser($userId);
+    }
+
+    public function getRestaurantReservations(int $restaurantId): array
+    {
+        return $this->reservationRepository->findByRestaurant($restaurantId);
+    }
+
+    public function getUpcomingReservations(int $userId): array
+    {
+        return array_filter(
+            $this->reservationRepository->findByUser($userId),
+            fn($reservation) => $reservation->getTimeSlot()->getStartTime() > new DateTimeImmutable()
+        );
+    }
+
+    public function getPastReservations(int $userId): array
+    {
+        return array_filter(
+            $this->reservationRepository->findByUser($userId),
+            fn($reservation) => $reservation->getTimeSlot()->getEndTime() < new DateTimeImmutable()
+        );
+    }
+
+    public function isTableAvailable(int $tableId, int $timeSlotId): bool
+    {
+        return $this->reservationRepository->isTableAvailable($tableId, $timeSlotId);
+    }
 }
