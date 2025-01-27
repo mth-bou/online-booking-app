@@ -51,5 +51,12 @@ services:
     App\Domain\Repository\UserRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\UserRepository
         public: true
+
+    App\Application\Service\ReservationService:
+        arguments:
+            $reservationRepository: '@App\Domain\Repository\ReservationRepositoryInterface'
+            $tableRepository: '@App\Domain\Repository\TableRepositoryInterface'
+            $timeSlotRepository: '@App\Domain\Repository\TimeSlotRepositoryInterface'
+            $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

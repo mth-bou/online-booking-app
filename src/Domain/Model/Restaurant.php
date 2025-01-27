@@ -162,8 +162,8 @@ class Restaurant
     {
         if ($this->tables->removeElement($table)) {
             // set the owning side to null (unless already changed)
-            if ($table->getrestaurant() === $this) {
-                $table->setrestaurant(null);
+            if ($table->getRestaurant() === $this) {
+                $table->setRestaurant(null);
             }
         }
 

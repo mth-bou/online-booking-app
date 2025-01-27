@@ -66,12 +66,12 @@ class Table
         return $this;
     }
 
-    public function getrestaurant(): ?Restaurant
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    public function setrestaurant(?Restaurant $restaurant): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
         $this->restaurant = $restaurant;
 

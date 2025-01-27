@@ -11,6 +11,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
 {
+    public const STATUS_PENDING = 'Pending';
+    public const STATUS_CONFIRMED = 'Confirmed';
+    public const STATUS_CANCELLED = 'Cancelled';
+    public const STATUS_COMPLETED = 'Completed';
+    public const STATUS_REJECTED = 'Rejected';
+
+    public const STATUS_LIST = [
+        self::STATUS_PENDING,
+        self::STATUS_CONFIRMED,
+        self::STATUS_CANCELLED,
+        self::STATUS_COMPLETED,
+        self::STATUS_REJECTED,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -24,7 +38,7 @@ class Reservation
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?string $status = self::STATUS_PENDING;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -56,12 +70,12 @@ class Reservation
         return $this->id;
     }
 
-    public function getuser(): ?User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setuser(?User $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
@@ -87,6 +101,10 @@ class Reservation
 
     public function setStatus(string $status): static
     {
+        if (!in_array($status, self::STATUS_LIST, true)) {
+            throw new \InvalidArgumentException("Invalid status: " . $status);
+        }
+        
         $this->status = $status;
 
         return $this;
