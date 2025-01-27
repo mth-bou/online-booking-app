@@ -39,5 +39,9 @@ services:
     App\Domain\Repository\ReviewRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\ReviewRepository
         public: true
+
+    App\Domain\Repository\TableRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Repository\TableRepository
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
