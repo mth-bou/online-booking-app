@@ -57,7 +57,42 @@ class PaymentRepository implements PaymentRepositoryInterface
 
     public function findByStatus(string $status): array
     {
+        if (!in_array($status, Payment::STATUS_LIST, true)) {
+            throw new \InvalidArgumentException("Invalid status: " . $status);
+        }
+
         return $this->repository->findBy(['status' => $status]);
+    }
+
+    public function findPendingPayments(): array
+    {
+        return $this->findByStatus(Payment::STATUS_PENDING);
+    }
+
+    public function findCompletedPayments(): array
+    {
+        return $this->findByStatus(Payment::STATUS_COMPLETED);
+    }
+
+    public function findFailedPayments(): array
+    {
+        return $this->findByStatus(Payment::STATUS_FAILED);
+    }
+
+    public function findRefundedPayments(): array
+    {
+        return $this->findByStatus(Payment::STATUS_REFUNDED);
+    }
+
+    public function updatePaymentStatus(int $paymentId, string $status): void
+    {
+        $payment = $this->findById($paymentId);
+        if (!$payment) {
+            throw new \Exception("Payment not found.");
+        }
+
+        $payment->setStatus($status);
+        $this->save($payment);
     }
 
     public function findByDateRange(DateTime $startDate, DateTime $endDate): array

@@ -9,6 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
 {
+    public const STATUS_PENDING = 'Pending';
+    public const STATUS_COMPLETED = 'Completed';
+    public const STATUS_FAILED = 'Failed';
+    public const STATUS_REFUNDED = 'Refunded';
+
+    public const STATUS_LIST = [
+        self::STATUS_PENDING,
+        self::STATUS_COMPLETED,
+        self::STATUS_FAILED,
+        self::STATUS_REFUNDED,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,7 +33,7 @@ class Payment
     private ?string $amount = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    private ?string $status = self::STATUS_PENDING;
 
     #[ORM\Column(length: 50)]
     private ?string $paymentMethod = null;
@@ -72,6 +84,10 @@ class Payment
 
     public function setStatus(string $status): static
     {
+        if (!in_array($status, self::STATUS_LIST, true)) {
+            throw new \InvalidArgumentException("Invalid status: " . $status);
+        }
+        
         $this->status = $status;
 
         return $this;

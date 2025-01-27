@@ -54,7 +54,9 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findActiveReservations(): array
     {
-        return $this->repository->findBy(['status' => ['Pending', 'Confirmed']]);
+        return $this->repository->findBy([
+            'status' => [Reservation::STATUS_PENDING, Reservation::STATUS_CONFIRMED]
+        ]);
     }
 
     public function findPastReservations(): array
@@ -70,20 +72,20 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findCancelledReservations(): array
     {
-        return $this->repository->findBy(['status' => 'Cancelled']);
+        return $this->repository->findBy(['status' => Reservation::STATUS_CANCELLED]);
     }
 
     public function isTableAvailable(int $tableId, int $timeSlotId): bool
     {
         $count = $this->em->createQueryBuilder()
-        ->select('r')
-        ->from(Reservation::class,'r')
-        ->where('r.table = :tableId')
-        ->andWhere('r.timeSlot = :timeSlotId')
-        ->setParameter('tableId', $tableId)
-        ->setParameter('timeSlotId', $timeSlotId)
-        ->getQuery()
-        ->getResult();
+            ->select('COUNT(r.id)')
+            ->from(Reservation::class, 'r')
+            ->where('r.table = :tableId')
+            ->andWhere('r.timeSlot = :timeSlotId')
+            ->setParameter('tableId', $tableId)
+            ->setParameter('timeSlotId', $timeSlotId)
+            ->getQuery()
+            ->getSingleScalarResult();
 
         return $count == 0;
     }

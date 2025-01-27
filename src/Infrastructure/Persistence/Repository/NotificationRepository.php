@@ -49,11 +49,26 @@ class NotificationRepository implements NotificationRepositoryInterface
         ->getResult();
     }
 
+    public function findByStatus(string $status): array
+    {
+        return $this->repository->findBy(['status' => $status], ['createdAt' => 'DESC']);
+    }
+
+    public function findPendingNotifications(): array
+    {
+        return $this->findByStatus(Notification::STATUS_PENDING);
+    }
+
+    public function findFailedNotifications(): array
+    {
+        return $this->findByStatus(Notification::STATUS_FAILED);
+    }
+
     public function markAsRead(int $notificationId): void
     {
         $notification = $this->repository->find($notificationId);
         if ($notification) {
-            $notification->setIsRead(true);
+            $notification->markAsRead(true);
             $this->save($notification);
         }
     }
@@ -68,6 +83,15 @@ class NotificationRepository implements NotificationRepositoryInterface
         ->setParameter('userId', $userId)
         ->getQuery()
         ->execute();
+    }
+
+    public function updateNotificationStatus(int $notificationId, string $status): void
+    {
+        $notification = $this->repository->find($notificationId);
+        if ($notification) {
+            $notification->setStatus($status);
+            $this->save($notification);
+        }
     }
 
     public function save(Notification $notification): void
