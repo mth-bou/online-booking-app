@@ -37,6 +37,10 @@ class TimeSlot
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'timeSlot')]
     private Collection $reservations;
 
+    #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'timeSlots')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Restaurant $restaurant = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -104,6 +108,17 @@ class TimeSlot
     {
         $this->updatedAt = $updatedAt;
 
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurant
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurant $restaurant): static
+    {
+        $this->restaurant = $restaurant;
         return $this;
     }
 

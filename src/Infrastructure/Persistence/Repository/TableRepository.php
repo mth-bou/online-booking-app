@@ -6,6 +6,7 @@ use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
+use DateTime;
 
 class TableRepository implements TableRepositoryInterface
 {
@@ -73,6 +74,23 @@ class TableRepository implements TableRepositoryInterface
             ->setParameter('endTime', $endTime)
             ->getQuery()
             ->getResult();
+    }
+
+    public function isTableAvailable(int $tableId, DateTime $startTime, DateTime $endTime): bool
+    {
+        $count = $this->em->createQueryBuilder()
+            ->select('COUNT(r.id)')
+            ->from('App\Domain\Model\Reservation', 'r')
+            ->where('r.table = :tableId')
+            ->andWhere('r.timeSlot.startTime < :endTime')
+            ->andWhere('r.timeSlot.endTime > :startTime')
+            ->setParameter('tableId', $tableId)
+            ->setParameter('startTime', $startTime)
+            ->setParameter('endTime', $endTime)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count == 0;
     }
 
     public function save(Table $table): void

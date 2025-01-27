@@ -88,3 +88,13 @@ services:
             $reviewRepository: '@App\Domain\Repository\ReviewRepositoryInterface'
             $restaurantRepository: '@App\Domain\Repository\RestaurantRepositoryInterface'
             $userRepository: '@App\Domain\Repository\UserRepositoryInterface'
+
+    App\Application\Service\TimeSlotService:
+        arguments:
+            $timeSlotRepository: '@App\Domain\Repository\TimeSlotRepositoryInterface'
+            $restaurantRepository: '@App\Domain\Repository\RestaurantRepositoryInterface'
+
+    App\Application\Service\TableService:
+        arguments:
+            $tableRepository: '@App\Domain\Repository\TableRepositoryInterface'
+            $restaurantRepository: '@App\Domain\Repository\RestaurantRepositoryInterface'

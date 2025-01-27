@@ -45,10 +45,14 @@ class Restaurant
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'restaurant', orphanRemoval: true)]
     private Collection $reviews;
 
+    #[ORM\OneToMany(targetEntity: TimeSlot::class, mappedBy: 'restaurant', orphanRemoval: true)]
+    private Collection $timeSlots;
+
     public function __construct()
     {
         $this->tables = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->timeSlots = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +196,30 @@ class Restaurant
         if ($this->reviews->removeElement($review)) {
             if ($review->getRestaurant() === $this) {
                 $review->setRestaurant(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getTimeSlots(): Collection
+    {
+        return $this->timeSlots;
+    }
+
+    public function addTimeSlot(TimeSlot $timeSlot): static
+    {
+        if (!$this->timeSlots->contains($timeSlot)) {
+            $this->timeSlots->add($timeSlot);
+            $timeSlot->setRestaurant($this);
+        }
+        return $this;
+    }
+
+    public function removeTimeSlot(TimeSlot $timeSlot): static
+    {
+        if ($this->timeSlots->removeElement($timeSlot)) {
+            if ($timeSlot->getRestaurant() === $this) {
+                $timeSlot->setRestaurant(null);
             }
         }
         return $this;
