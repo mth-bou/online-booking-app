@@ -42,12 +42,13 @@ class Restaurant
     #[ORM\OneToMany(targetEntity: Table::class, mappedBy: 'restaurant', orphanRemoval: true)]
     private Collection $tables;
 
-    #[ORM\ManyToOne(inversedBy: 'restaurant')]
-    private ?Review $review = null;
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'restaurant', orphanRemoval: true)]
+    private Collection $reviews;
 
     public function __construct()
     {
         $this->tables = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,15 +170,30 @@ class Restaurant
         return $this;
     }
 
-    public function getReview(): ?Review
+    /**
+     * @return Collection<int, Review>
+     */
+    public function getReviews(): Collection
     {
-        return $this->review;
+        return $this->reviews;
     }
 
-    public function setReview(?Review $review): static
+    public function addReview(Review $review): static
     {
-        $this->review = $review;
+        if (!$this->reviews->contains($review)) {
+            $this->reviews->add($review);
+            $review->setRestaurant($this);
+        }
+        return $this;
+    }
 
+    public function removeReview(Review $review): static
+    {
+        if ($this->reviews->removeElement($review)) {
+            if ($review->getRestaurant() === $this) {
+                $review->setRestaurant(null);
+            }
+        }
         return $this;
     }
 }

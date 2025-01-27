@@ -35,5 +35,9 @@ services:
     App\Domain\Repository\RestaurantRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\RestaurantRepository
         public: true
+
+    App\Domain\Repository\ReviewRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Repository\ReviewRepository
+        public: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

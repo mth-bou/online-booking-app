@@ -3,8 +3,6 @@
 namespace App\Domain\Model;
 
 use App\Domain\Repository\ReviewRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
@@ -27,20 +25,13 @@ class Review
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $_user = null;
 
-    /**
-     * @var Collection<int, Restaurant>
-     */
-    #[ORM\OneToMany(targetEntity: Restaurant::class, mappedBy: 'review')]
-    private Collection $restaurant;
-
-    public function __construct()
-    {
-        $this->restaurant = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Restaurant $restaurant = null;
 
     public function getId(): ?int
     {
@@ -55,7 +46,6 @@ class Review
     public function setRating(int $rating): static
     {
         $this->rating = $rating;
-
         return $this;
     }
 
@@ -67,7 +57,6 @@ class Review
     public function setComment(?string $comment): static
     {
         $this->comment = $comment;
-
         return $this;
     }
 
@@ -79,7 +68,6 @@ class Review
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -91,7 +79,6 @@ class Review
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
         return $this;
     }
 
@@ -103,37 +90,17 @@ class Review
     public function setUser(?User $_user): static
     {
         $this->_user = $_user;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Restaurant>
-     */
-    public function getRestaurant(): Collection
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    public function addRestaurant(Restaurant $restaurant): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
-        if (!$this->restaurant->contains($restaurant)) {
-            $this->restaurant->add($restaurant);
-            $restaurant->setReview($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRestaurant(Restaurant $restaurant): static
-    {
-        if ($this->restaurant->removeElement($restaurant)) {
-            // set the owning side to null (unless already changed)
-            if ($restaurant->getReview() === $this) {
-                $restaurant->setReview(null);
-            }
-        }
-
+        $this->restaurant = $restaurant;
         return $this;
     }
 }
