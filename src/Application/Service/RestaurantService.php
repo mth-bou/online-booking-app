@@ -62,8 +62,12 @@ class RestaurantService
             throw new NotFoundResourceException("Restaurant not found.");
         }
 
-        if (isset($data["name"]) && $this->restaurantRepository->findByName($data["name"])) {
-            throw new Exception("A restaurant with this name already exists.");
+        if (isset($data["name"])) {
+            $existingRestaurant = $this->restaurantRepository->findByName($data["name"]);
+            if ($existingRestaurant && $existingRestaurant->getId() !== $restaurantId) {
+                throw new Exception("A restaurant with this name already exists.");
+            }
+            $restaurant->setName($data["name"]);
         }
 
         if (isset($data["name"])) $restaurant->setName($data["name"]);

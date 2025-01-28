@@ -2,11 +2,14 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\Review;
+use App\Domain\Model\Interface\UserInterface;
+use App\Domain\Model\Interface\ReviewInterface;
+use App\Domain\Model\Interface\RestaurantInterface;
+
+use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
-use App\Domain\Repository\UserRepositoryInterface;
-use DateTimeImmutable;
+
 use Exception;
 
 class ReviewService
@@ -25,21 +28,22 @@ class ReviewService
         $this->userRepository = $userRepository;
     }
 
-    public function addReview(int $userId, int $restaurantId, int $rating, ?string $comment): Review
+    public function addReview(int $userId, int $restaurantId, int $rating, ?string $comment): ReviewInterface
     {
         $user = $this->userRepository->findById($userId);
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
-        if (!$user || !$restaurant) {
-            throw new Exception("User or Restaurant not found.");
-        }
+        if (!$user || !$restaurant) throw new Exception("User or Restaurant not found.");
 
-        $review = new Review();
+        if (!$user instanceof UserInterface) throw new Exception("User does not implement UserInterface.");
+
+        if (!$restaurant instanceof RestaurantInterface) throw new Exception("Restaurant does not implement RestaurantInterface.");
+
+        $review = $this->reviewRepository->createNew();
         $review->setUser($user);
         $review->setRestaurant($restaurant);
         $review->setRating($rating);
         $review->setComment($comment);
-        $review->setCreatedAt(new DateTimeImmutable());
 
         $this->reviewRepository->save($review);
 

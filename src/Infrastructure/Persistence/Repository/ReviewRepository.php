@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
+use App\Domain\Model\Interface\ReviewInterface;
 use App\Domain\Model\Review;
 use App\Domain\Repository\ReviewRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +19,12 @@ class ReviewRepository implements ReviewRepositoryInterface
         $this->repository = $em->getRepository(Review::class);
     }
 
-    public function findById(int $id): ?Review
+    public function createNew(): ReviewInterface
+    {
+        return new Review();
+    }
+
+    public function findById(int $id): ?ReviewInterface
     {
         return $this->repository->find($id);
     }
@@ -62,13 +68,13 @@ class ReviewRepository implements ReviewRepositoryInterface
             ->getSingleScalarResult();
     }
 
-    public function save(Review $review): void
+    public function save(ReviewInterface $review): void
     {
         $this->em->persist($review);
         $this->em->flush();
     }
 
-    public function delete(Review $review): void
+    public function delete(ReviewInterface $review): void
     {
         $this->em->remove($review);
         $this->em->flush();
