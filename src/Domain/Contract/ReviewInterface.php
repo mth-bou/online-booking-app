@@ -5,9 +5,7 @@ namespace App\Domain\Contract;
 use DateTimeImmutable;
 use App\Domain\Contract\UserModelInterface;
 use App\Domain\Contract\RestaurantInterface;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\MappedSuperclass]
 interface ReviewInterface
 {
     public function getId(): ?int;

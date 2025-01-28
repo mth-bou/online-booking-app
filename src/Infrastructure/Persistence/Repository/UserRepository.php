@@ -16,7 +16,7 @@ class UserRepository implements UserRepositoryInterface
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->repository = $em->getRepository(UserModelInterface::class);
+        $this->repository = $em->getRepository(User::class);
     }
 
     public function createNew(): UserModelInterface

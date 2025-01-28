@@ -3,11 +3,9 @@
 namespace App\Domain\Contract;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-#[ORM\MappedSuperclass]
 interface ReservationInterface
 {
     public function getId(): ?int;

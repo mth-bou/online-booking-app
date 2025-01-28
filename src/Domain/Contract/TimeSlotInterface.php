@@ -7,9 +7,7 @@ use App\Domain\Contract\ReservationInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\MappedSuperclass]
 interface TimeSlotInterface
 {
     public function getId(): ?int;

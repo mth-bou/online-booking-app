@@ -3,10 +3,8 @@
 namespace App\Domain\Contract;
 
 use App\Domain\Contract\UserModelInterface;
-use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
-#[ORM\MappedSuperclass]
 interface NotificationInterface
 {
     public function getId(): ?int;
