@@ -6,6 +6,7 @@ use App\Infrastructure\Persistence\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: '`table`')]
@@ -17,9 +18,11 @@ class Table
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: "Table number sould be positive number.")]
     private ?int $tableNumber = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: "Capacity should be positive number.")]
     private ?int $capacity = null;
 
     #[ORM\ManyToOne(inversedBy: 'tables')]

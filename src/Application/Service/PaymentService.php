@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
@@ -32,7 +33,7 @@ class PaymentService
         $payment->setReservation($reservation);
         $payment->setAmount($amount);
         $payment->setPaymentMethod($paymentMethod);
-        $payment->setStatus(Payment::STATUS_PENDING);
+        $payment->setStatus(StatusEnum::PENDING->value);
         $payment->setPaymentDate(new DateTimeImmutable());
         $payment->setCreatedAt(new DateTimeImmutable());
 
@@ -48,7 +49,7 @@ class PaymentService
             throw new NotFoundResourceException("Payment not found.");
         }
 
-        $payment->setStatus(Payment::STATUS_COMPLETED);
+        $payment->setStatus(StatusEnum::COMPLETED->value);
         $this->paymentRepository->save($payment);
     }
 
@@ -59,7 +60,7 @@ class PaymentService
             throw new NotFoundResourceException("Payment not found.");
         }
 
-        $payment->setStatus(Payment::STATUS_REFUNDED);
+        $payment->setStatus(StatusEnum::REFUNDED->value);
         $this->paymentRepository->save($payment);
     }
 }

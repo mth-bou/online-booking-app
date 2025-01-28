@@ -2,11 +2,13 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
+use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use DateTime;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class PaymentRepository implements PaymentRepositoryInterface
 {
@@ -55,43 +57,39 @@ class PaymentRepository implements PaymentRepositoryInterface
             ->getResult();
     }
 
-    public function findByStatus(string $status): array
+    public function findByStatus(StatusEnum $status): array
     {
-        if (!in_array($status, Payment::STATUS_LIST, true)) {
-            throw new \InvalidArgumentException("Invalid status: " . $status);
-        }
-
-        return $this->repository->findBy(['status' => $status]);
+        return $this->repository->findBy(['status' => $status->value]);
     }
 
     public function findPendingPayments(): array
     {
-        return $this->findByStatus(Payment::STATUS_PENDING);
+        return $this->findByStatus(StatusEnum::PENDING);
     }
 
     public function findCompletedPayments(): array
     {
-        return $this->findByStatus(Payment::STATUS_COMPLETED);
+        return $this->findByStatus(StatusEnum::COMPLETED);
     }
 
     public function findFailedPayments(): array
     {
-        return $this->findByStatus(Payment::STATUS_FAILED);
+        return $this->findByStatus(StatusEnum::FAILED);
     }
 
     public function findRefundedPayments(): array
     {
-        return $this->findByStatus(Payment::STATUS_REFUNDED);
+        return $this->findByStatus(StatusEnum::REFUNDED);
     }
 
-    public function updatePaymentStatus(int $paymentId, string $status): void
+    public function updatePaymentStatus(int $paymentId, StatusEnum $status): void
     {
         $payment = $this->findById($paymentId);
         if (!$payment) {
-            throw new \Exception("Payment not found.");
+            throw new NotFoundResourceException("Payment not found.");
         }
 
-        $payment->setStatus($status);
+        $payment->setStatus($status->value);
         $this->save($payment);
     }
 

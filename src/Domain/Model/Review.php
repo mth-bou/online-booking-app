@@ -4,6 +4,7 @@ namespace App\Domain\Model;
 
 use App\Infrastructure\Persistence\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 class Review
@@ -14,6 +15,11 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Range(
+        min: 1,
+        max: 5,
+        notInRangeMessage: "Rating should be included between 1 and 5."
+    )]
     private ?int $rating = null;
 
     #[ORM\Column(length: 255, nullable: true)]

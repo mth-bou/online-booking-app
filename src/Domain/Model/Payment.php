@@ -2,25 +2,15 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Enum\StatusEnum;
 use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
 {
-    public const STATUS_PENDING = 'Pending';
-    public const STATUS_COMPLETED = 'Completed';
-    public const STATUS_FAILED = 'Failed';
-    public const STATUS_REFUNDED = 'Refunded';
-
-    public const STATUS_LIST = [
-        self::STATUS_PENDING,
-        self::STATUS_COMPLETED,
-        self::STATUS_FAILED,
-        self::STATUS_REFUNDED,
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,10 +20,11 @@ class Payment
     private ?\DateTimeInterface $paymentDate = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
-    private ?string $amount = null;
+    private ?float $amount = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $status = self::STATUS_PENDING;
+    #[Assert\Choice(choices: StatusEnum::casesAsArray(), message: "Invalid Status.")]
+    private ?string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column(length: 50)]
     private ?string $paymentMethod = null;
@@ -70,7 +61,7 @@ class Payment
         return $this->amount;
     }
 
-    public function setAmount(string $amount): static
+    public function setAmount(float $amount): static
     {
         $this->amount = $amount;
 
@@ -84,7 +75,7 @@ class Payment
 
     public function setStatus(string $status): static
     {
-        if (!in_array($status, self::STATUS_LIST, true)) {
+        if (!StatusEnum::isValid($status)) {
             throw new \InvalidArgumentException("Invalid status: " . $status);
         }
         

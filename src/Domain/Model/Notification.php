@@ -43,7 +43,7 @@ class Notification
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $UpdatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
@@ -118,14 +118,14 @@ class Notification
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getupdatedAt(): ?\DateTimeImmutable
     {
-        return $this->UpdatedAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $UpdatedAt): static
+    public function setupdatedAt(\DateTimeImmutable $updatedAt): static
     {
-        $this->UpdatedAt = $UpdatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
