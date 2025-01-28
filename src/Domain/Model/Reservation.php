@@ -2,29 +2,17 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Enum\StatusEnum;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
 {
-    public const STATUS_PENDING = 'Pending';
-    public const STATUS_CONFIRMED = 'Confirmed';
-    public const STATUS_CANCELLED = 'Cancelled';
-    public const STATUS_COMPLETED = 'Completed';
-    public const STATUS_REJECTED = 'Rejected';
-
-    public const STATUS_LIST = [
-        self::STATUS_PENDING,
-        self::STATUS_CONFIRMED,
-        self::STATUS_CANCELLED,
-        self::STATUS_COMPLETED,
-        self::STATUS_REJECTED,
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -38,7 +26,8 @@ class Reservation
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = self::STATUS_PENDING;
+    #[Assert\Choice(choices: StatusEnum::casesAsArray(), message: "Invalid Status.")]
+    private ?string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -101,7 +90,7 @@ class Reservation
 
     public function setStatus(string $status): static
     {
-        if (!in_array($status, self::STATUS_LIST, true)) {
+        if (!StatusEnum::isValid($status)) {
             throw new \InvalidArgumentException("Invalid status: " . $status);
         }
         

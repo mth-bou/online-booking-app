@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\TableRepositoryInterface;
@@ -52,7 +53,7 @@ class ReservationService
         $reservation->setUser($user);
         $reservation->setTable($table);
         $reservation->setTimeSlot($timeSlot);
-        $reservation->setStatus(Reservation::STATUS_PENDING);
+        $reservation->setStatus(StatusEnum::PENDING->value);
         $reservation->setCreatedAt(new DateTimeImmutable());
         $reservation->setUpdatedAt(new DateTimeImmutable());
 
@@ -69,7 +70,7 @@ class ReservationService
             throw new Exception("Reservation not found.");
         }
 
-        $reservation->setStatus(Reservation::STATUS_CANCELLED);
+        $reservation->setStatus(StatusEnum::CANCELED->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());
         $this->reservationRepository->save($reservation);
     }
@@ -82,7 +83,7 @@ class ReservationService
             throw new Exception("Reservation not found.");
         }
 
-        $reservation->setStatus(Reservation::STATUS_CONFIRMED);
+        $reservation->setStatus(StatusEnum::CONFIRMED->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());
         $this->reservationRepository->save($reservation);
     }
@@ -95,7 +96,7 @@ class ReservationService
             throw new Exception("Reservation not found.");
         }
 
-        $reservation->setStatus(Reservation::STATUS_COMPLETED);
+        $reservation->setStatus(StatusEnum::COMPLETED->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());
         $this->reservationRepository->save($reservation);
     }
@@ -108,7 +109,7 @@ class ReservationService
             throw new Exception("Reservation not found.");
         }
 
-        $reservation->setStatus(Reservation::STATUS_REJECTED);
+        $reservation->setStatus(StatusEnum::REJECTED->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());
         $this->reservationRepository->save($reservation);
     }

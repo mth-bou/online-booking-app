@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
+use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,7 +56,7 @@ class ReservationRepository implements ReservationRepositoryInterface
     public function findActiveReservations(): array
     {
         return $this->repository->findBy([
-            'status' => [Reservation::STATUS_PENDING, Reservation::STATUS_CONFIRMED]
+            'status' => [StatusEnum::PENDING, StatusEnum::CONFIRMED]
         ]);
     }
 
@@ -72,7 +73,7 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findCancelledReservations(): array
     {
-        return $this->repository->findBy(['status' => Reservation::STATUS_CANCELLED]);
+        return $this->repository->findBy(['status' => StatusEnum::CANCELED]);
     }
 
     public function isTableAvailable(int $tableId, int $timeSlotId): bool
