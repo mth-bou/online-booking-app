@@ -2,6 +2,9 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\Interface\TableInterface;
 use App\Infrastructure\Persistence\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: 'restaurant_table')]
-class Table
+class Table implements TableInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +30,7 @@ class Table
 
     #[ORM\ManyToOne(inversedBy: 'tables')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Restaurant $restaurant = null;
+    private ?RestaurantInterface $restaurant = null;
 
     /**
      * @var Collection<int, Reservation>
@@ -69,12 +72,12 @@ class Table
         return $this;
     }
 
-    public function getRestaurant(): ?Restaurant
+    public function getRestaurant(): ?RestaurantInterface
     {
         return $this->restaurant;
     }
 
-    public function setRestaurant(?Restaurant $restaurant): static
+    public function setRestaurant(?RestaurantInterface $restaurant): static
     {
         $this->restaurant = $restaurant;
 
@@ -89,7 +92,7 @@ class Table
         return $this->reservations;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservation(ReservationInterface $reservation): static
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
@@ -99,7 +102,7 @@ class Table
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservation(ReservationInterface $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)

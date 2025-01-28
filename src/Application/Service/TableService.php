@@ -2,12 +2,12 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\Table;
+use App\Domain\Model\Interface\TableInterface;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
-use DateTime;
-use Exception;
+
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use DateTime;
 
 class TableService
 {
@@ -22,7 +22,7 @@ class TableService
         $this->restaurantRepository = $restaurantRepository;
     }
 
-    public function addTable(int $restaurantId, int $capacity, string $tableNumber): Table
+    public function addTable(int $restaurantId, int $capacity, string $tableNumber): TableInterface
     {
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
@@ -30,7 +30,7 @@ class TableService
             throw new NotFoundResourceException("Restaurant not found.");
         }
 
-        $table = new Table();
+        $table = $this->tableRepository->createNew();
         $table->setRestaurant($restaurant);
         $table->setCapacity($capacity);
         $table->setTableNumber($tableNumber);

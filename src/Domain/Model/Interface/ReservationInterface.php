@@ -20,8 +20,8 @@ interface ReservationInterface
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
     public function getTimeSlot(): ?TimeSlot;
     public function setTimeSlot(?TimeSlot $timeSlot): static;
-    public function getTable(): ?Table;
-    public function setTable(?Table $restaurantTable): static;
+    public function getTable(): ?TableInterface;
+    public function setTable(?TableInterface $restaurantTable): static;
     public function getPayments(): Collection;
     public function addPayment(PaymentInterface $payment): static;
     public function removePayment(PaymentInterface $payment): static;

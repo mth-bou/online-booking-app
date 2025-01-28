@@ -5,6 +5,7 @@ namespace App\Domain\Model;
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Interface\PaymentInterface;
 use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\Interface\TableInterface;
 use App\Domain\Model\Interface\UserInterface;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,7 +47,7 @@ class Reservation implements ReservationInterface
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false, name: 'restaurant_table_id')]
-    private ?Table $restaurantTable = null;
+    private ?TableInterface $restaurantTable = null;
 
     /**
      * @var Collection<int, Payment>
@@ -149,12 +150,12 @@ class Reservation implements ReservationInterface
         return $this;
     }
 
-    public function getTable(): ?Table
+    public function getTable(): ?TableInterface
     {
         return $this->restaurantTable;
     }
 
-    public function setTable(?Table $restaurantTable): static
+    public function setTable(?TableInterface $restaurantTable): static
     {
         $this->restaurantTable = $restaurantTable;
 
