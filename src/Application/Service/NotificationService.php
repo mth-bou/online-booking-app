@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Notification;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
@@ -29,7 +30,7 @@ class NotificationService
         $notification = new Notification();
         $notification->setUser($user);
         $notification->setMessage($message);
-        $notification->setStatus(Notification::STATUS_PENDING);
+        $notification->setStatus(StatusEnum::PENDING->value);
         $notification->setCreatedAt(new DateTimeImmutable());
 
         $this->notificationRepository->save($notification);
@@ -44,7 +45,7 @@ class NotificationService
             throw new NotFoundResourceException("Notification not found.");
         }
 
-        $notification->setStatus(Notification::STATUS_SENT);
+        $notification->setStatus(StatusEnum::SENT->value);
         $this->notificationRepository->save($notification);
     }
 

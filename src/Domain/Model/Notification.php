@@ -2,26 +2,14 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Enum\StatusEnum;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 class Notification
 {
-    public const STATUS_PENDING = 'Pending';
-    public const STATUS_SENT = 'Sent';
-    public const STATUS_FAILED = 'Failed';
-    public const STATUS_CANCELED = 'Canceled';
-    public const STATUS_ARCHIVED = 'Archived';
-
-    public const STATUS_LIST = [
-        self::STATUS_PENDING,
-        self::STATUS_SENT,
-        self::STATUS_FAILED,
-        self::STATUS_CANCELED,
-        self::STATUS_ARCHIVED
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -34,7 +22,8 @@ class Notification
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = self::STATUS_PENDING;
+    #[Assert\Choice(choices: StatusEnum::casesAsArray(), message: "Invalid Status.")]
+    private ?string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column]
     private bool $isRead = false;
@@ -85,7 +74,7 @@ class Notification
 
     public function setStatus(string $status): static
     {
-        if (!in_array($status, self::STATUS_LIST, true)) {
+        if (!StatusEnum::isValid($status)) {
             throw new \InvalidArgumentException("Invalid status: " . $status);
         }
 

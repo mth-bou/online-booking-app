@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
+use App\Domain\Enum\StatusEnum;
 use \App\Domain\Model\Notification;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,19 +50,19 @@ class NotificationRepository implements NotificationRepositoryInterface
         ->getResult();
     }
 
-    public function findByStatus(string $status): array
+    public function findByStatus(StatusEnum $status): array
     {
-        return $this->repository->findBy(['status' => $status], ['createdAt' => 'DESC']);
+        return $this->repository->findBy(['status' => $status->value], ['createdAt' => 'DESC']);
     }
 
     public function findPendingNotifications(): array
     {
-        return $this->findByStatus(Notification::STATUS_PENDING);
+        return $this->findByStatus(StatusEnum::PENDING);
     }
 
     public function findFailedNotifications(): array
     {
-        return $this->findByStatus(Notification::STATUS_FAILED);
+        return $this->findByStatus(StatusEnum::FAILED);
     }
 
     public function markAsRead(int $notificationId): void
