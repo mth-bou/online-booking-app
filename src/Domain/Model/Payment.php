@@ -3,6 +3,7 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
+use App\Domain\Model\Interface\PaymentInterface;
 use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Payment
+class Payment implements PaymentInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,7 +66,7 @@ class Payment
         return $this;
     }
 
-    public function getAmount(): ?string
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
