@@ -8,12 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use App\Domain\Model\Interface\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Infrastructure\Persistence\Repository\UserRepository;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: '`user`')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

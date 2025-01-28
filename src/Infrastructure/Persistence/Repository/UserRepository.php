@@ -19,6 +19,11 @@ class UserRepository implements UserRepositoryInterface
         $this->repository = $em->getRepository(UserInterface::class);
     }
 
+    public function createNew(): UserInterface
+    {
+        return new User();
+    }
+
     public function findById(int $id): ?UserInterface
     {
         return $this->repository->find($id);

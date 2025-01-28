@@ -3,6 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Model\User;
+use App\Domain\Model\Interface\UserInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
@@ -40,13 +41,13 @@ class UserService
         ?string $firstname,
         ?string $lastname,
         ?string $phonNumber
-        ): User
+        ): UserInterface
     {
         if ($this->userRepository->emailExists($email)) {
             throw new Exception("Email already in use.");
         }
 
-        $user = new User();
+        $user = $this->userRepository->createNew();
         $user->setEmail($email);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);

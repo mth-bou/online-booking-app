@@ -4,9 +4,10 @@ namespace App\Domain\Model\Interface;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
-interface UserInterface extends SymfonyUserInterface
+interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface
 {
     public function getId(): ?int;
     public function getEmail(): ?string;

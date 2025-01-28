@@ -22,6 +22,11 @@ class NotificationRepository implements NotificationRepositoryInterface
         $this->repository = $em->getRepository(Notification::class);
     }
 
+    public function createNew(): NotificationInterface
+    {
+        return new Notification();
+    }
+
     public function findById(int $id): ?NotificationInterface
     {
         return $this->repository->find($id);

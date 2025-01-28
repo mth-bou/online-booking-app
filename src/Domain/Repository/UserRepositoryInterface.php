@@ -6,6 +6,7 @@ use App\Domain\Model\Interface\UserInterface;
 
 interface UserRepositoryInterface
 {
+    public function createNew(): UserInterface;
     public function findById(int $id): ?UserInterface;
     public function findByEmail(string $email): ?UserInterface;
     public function findByPhoneNumber(string $phoneNumber): ?UserInterface;
