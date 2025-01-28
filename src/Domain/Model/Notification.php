@@ -6,8 +6,10 @@ use App\Domain\Enum\StatusEnum;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Notification
 {
     #[ORM\Id]
@@ -29,14 +31,21 @@ class Notification
     private bool $isRead = false;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $_user = null;
+
+    public function __construct()
+    {
+        $now = new DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
 
     public function getId(): ?int
     {
@@ -95,28 +104,34 @@ class Notification
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getupdatedAt(): ?\DateTimeImmutable
+    public function getupdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setupdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setupdatedAt(DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function updateTimeStamps(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function getUser(): ?User
