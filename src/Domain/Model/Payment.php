@@ -28,7 +28,7 @@ class Payment implements PaymentInterface
 
     #[ORM\Column(length: 50)]
     #[Assert\Choice(callback: [StatusEnum::class, 'casesAsArray'], message: "Invalid Status.")]
-    private string $status;
+    private string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column(length: 50)]
     private ?string $paymentMethod = null;
@@ -48,7 +48,7 @@ class Payment implements PaymentInterface
         $now = new DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
-        $this->setStatus(StatusEnum::PENDING->value);
+        // $this->setStatus(StatusEnum::PENDING->value);
     }
 
     public function getId(): ?int

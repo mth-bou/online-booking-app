@@ -34,7 +34,7 @@ class Reservation implements ReservationInterface
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Choice(choices: StatusEnum::casesAsArray(), message: "Invalid Status.")]
+    #[Assert\Choice(callback: [StatusEnum::class, 'casesAsArray'], message: "Invalid Status.")]
     private ?string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column]
