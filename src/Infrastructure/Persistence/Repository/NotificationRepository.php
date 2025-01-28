@@ -8,6 +8,7 @@ use App\Domain\Repository\NotificationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use DateTime;
+use DateTimeImmutable;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {
@@ -70,6 +71,7 @@ class NotificationRepository implements NotificationRepositoryInterface
         $notification = $this->repository->find($notificationId);
         if ($notification) {
             $notification->markAsRead(true);
+            $notification->setupdatedAt(new DateTimeImmutable());
             $this->save($notification);
         }
     }
@@ -79,8 +81,10 @@ class NotificationRepository implements NotificationRepositoryInterface
         $this->em->createQueryBuilder()
         ->update(Notification::class, 'n')
         ->set('n.isRead', ':isRead')
+        ->set('n.updatedAt', ':updatedAt')
         ->where('n.user = :userId')
         ->setParameter('isRead', true)
+        ->setParameter('updatedAt', new DateTimeImmutable())
         ->setParameter('userId', $userId)
         ->getQuery()
         ->execute();
