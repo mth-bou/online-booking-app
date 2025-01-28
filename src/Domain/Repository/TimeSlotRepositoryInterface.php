@@ -4,6 +4,7 @@ namespace App\Domain\Repository;
 
 use App\Domain\Model\Interface\TimeSlotInterface;
 use DateTime;
+use DateTimeImmutable;
 
 interface TimeSlotRepositoryInterface
 {
@@ -12,7 +13,7 @@ interface TimeSlotRepositoryInterface
     public function findAvailableByRestaurant(int $restaurantId): array;
     public function findByTable(int $tableId): array;
     public function findByDate(int $restaurantId, DateTime $date): array;
-    public function isTimeSlotAvailable(int $tableId, DateTime $startTime, DateTime $endTime): bool;
+    public function isTimeSlotAvailable(int $tableId, DateTimeImmutable $startTime, DateTimeImmutable $endTime): bool;
     public function save(TimeSlotInterface $timeSlot): void;
     public function delete(TimeSlotInterface $timeSlot): void;
 }

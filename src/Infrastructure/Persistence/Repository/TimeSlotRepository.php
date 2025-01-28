@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use App\Domain\Model\Interface\TimeSlotInterface;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
+use DateTimeImmutable;
 
 class TimeSlotRepository implements TimeSlotRepositoryInterface
 {
@@ -63,7 +64,7 @@ class TimeSlotRepository implements TimeSlotRepositoryInterface
             ->getResult();
     }
 
-    public function isTimeSlotAvailable(int $tableId, DateTime $startTime, DateTime $endTime): bool
+    public function isTimeSlotAvailable(int $tableId, DateTimeImmutable $startTime, DateTimeImmutable $endTime): bool
     {
         $count = $this->em->createQueryBuilder()
             ->select('COUNT(r.id')
