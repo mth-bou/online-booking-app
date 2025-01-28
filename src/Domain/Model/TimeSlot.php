@@ -2,8 +2,8 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Contract\ReservationInterface;
-use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Model\Reservation;
+use App\Domain\Model\Restaurant;
 use App\Domain\Contract\TimeSlotInterface;
 use App\Infrastructure\Persistence\Repository\TimeSlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -45,7 +45,7 @@ class TimeSlot implements TimeSlotInterface
 
     #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'timeSlots')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?RestaurantInterface $restaurant = null;
+    private ?Restaurant $restaurant = null;
 
     public function __construct()
     {
@@ -131,7 +131,7 @@ class TimeSlot implements TimeSlotInterface
         return $this->restaurant;
     }
 
-    public function setRestaurant(?RestaurantInterface $restaurant): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
         $this->restaurant = $restaurant;
         return $this;
@@ -145,7 +145,7 @@ class TimeSlot implements TimeSlotInterface
         return $this->reservations;
     }
 
-    public function addReservation(ReservationInterface $reservation): static
+    public function addReservation(Reservation $reservation): static
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
@@ -155,7 +155,7 @@ class TimeSlot implements TimeSlotInterface
         return $this;
     }
 
-    public function removeReservation(ReservationInterface $reservation): static
+    public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)

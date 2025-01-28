@@ -2,6 +2,9 @@
 
 namespace App\Domain\Contract;
 
+use App\Domain\Model\Review;
+use App\Domain\Model\Table;
+use App\Domain\Model\TimeSlot;
 use Doctrine\Common\Collections\Collection;
 
 interface RestaurantInterface
@@ -30,14 +33,14 @@ interface RestaurantInterface
     public function setPhoneNumber(string $phoneNumber): static;
 
     public function getTables(): Collection;
-    public function addTable(TableInterface $table): static;
-    public function removeTable(TableInterface $table): static;
+    public function addTable(Table $table): static;
+    public function removeTable(Table $table): static;
 
     public function getReviews(): Collection;
-    public function addReview(ReviewInterface $review): static;
-    public function removeReview(ReviewInterface $review): static;
+    public function addReview(Review $review): static;
+    public function removeReview(Review $review): static;
 
     public function getTimeSlots(): Collection;
-    public function addTimeSlot(TimeSlotInterface $timeSlot): static;
-    public function removeTimeSlot(TimeSlotInterface $timeSlot): static;
+    public function addTimeSlot(TimeSlot $timeSlot): static;
+    public function removeTimeSlot(TimeSlot $timeSlot): static;
 }

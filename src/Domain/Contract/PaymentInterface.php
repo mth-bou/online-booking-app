@@ -4,6 +4,7 @@ namespace App\Domain\Contract;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use App\Domain\Model\Reservation;
 
 interface PaymentInterface
 {
@@ -19,6 +20,6 @@ interface PaymentInterface
     public function getCreatedAt(): ?DateTimeImmutable;
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
-    public function getReservation(): ?ReservationInterface;
-    public function setReservation(?ReservationInterface $reservation): static;
+    public function getReservation(): ?Reservation;
+    public function setReservation(?Reservation $reservation): static;
 }

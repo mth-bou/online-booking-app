@@ -2,11 +2,11 @@
 
 namespace App\Domain\Contract;
 
-use App\Domain\Contract\RestaurantInterface;
-use App\Domain\Contract\ReservationInterface;
+use App\Domain\Model\Reservation;
+use App\Domain\Model\Restaurant;
+use Doctrine\Common\Collections\Collection;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Doctrine\Common\Collections\Collection;
 
 interface TimeSlotInterface
 {
@@ -21,9 +21,9 @@ interface TimeSlotInterface
     public function setCreatedAt(DateTimeImmutable $createdAt): static;
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
-    public function getRestaurant(): ?RestaurantInterface;
-    public function setRestaurant(?RestaurantInterface $restaurant): static;
+    public function getRestaurant(): ?Restaurant;
+    public function setRestaurant(?Restaurant $restaurant): static;
     public function getReservations(): Collection;
-    public function addReservation(ReservationInterface $reservation): static;
-    public function removeReservation(ReservationInterface $reservation): static;
+    public function addReservation(Reservation $reservation): static;
+    public function removeReservation(Reservation $reservation): static;
 }

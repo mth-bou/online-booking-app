@@ -3,9 +3,9 @@
 namespace App\Domain\Model;
 
 use App\Domain\Contract\RestaurantInterface;
-use App\Domain\Contract\ReviewInterface;
-use App\Domain\Contract\TableInterface;
-use App\Domain\Contract\TimeSlotInterface;
+use App\Domain\Model\Review;
+use App\Domain\Model\Table;
+use App\Domain\Model\TimeSlot;
 use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -156,7 +156,7 @@ class Restaurant implements RestaurantInterface
         return $this->tables;
     }
 
-    public function addTable(TableInterface $table): static
+    public function addTable(Table $table): static
     {
         if (!$this->tables->contains($table)) {
             $this->tables->add($table);
@@ -166,7 +166,7 @@ class Restaurant implements RestaurantInterface
         return $this;
     }
 
-    public function removeTable(TableInterface $table): static
+    public function removeTable(Table $table): static
     {
         if ($this->tables->removeElement($table)) {
             // set the owning side to null (unless already changed)
@@ -186,7 +186,7 @@ class Restaurant implements RestaurantInterface
         return $this->reviews;
     }
 
-    public function addReview(ReviewInterface $review): static
+    public function addReview(Review $review): static
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews->add($review);
@@ -195,7 +195,7 @@ class Restaurant implements RestaurantInterface
         return $this;
     }
 
-    public function removeReview(ReviewInterface $review): static
+    public function removeReview(Review $review): static
     {
         if ($this->reviews->removeElement($review)) {
             if ($review->getRestaurant() === $this) {
@@ -210,7 +210,7 @@ class Restaurant implements RestaurantInterface
         return $this->timeSlots;
     }
 
-    public function addTimeSlot(TimeSlotInterface $timeSlot): static
+    public function addTimeSlot(TimeSlot $timeSlot): static
     {
         if (!$this->timeSlots->contains($timeSlot)) {
             $this->timeSlots->add($timeSlot);
@@ -219,7 +219,7 @@ class Restaurant implements RestaurantInterface
         return $this;
     }
 
-    public function removeTimeSlot(TimeSlotInterface $timeSlot): static
+    public function removeTimeSlot(TimeSlot $timeSlot): static
     {
         if ($this->timeSlots->removeElement($timeSlot)) {
             if ($timeSlot->getRestaurant() === $this) {

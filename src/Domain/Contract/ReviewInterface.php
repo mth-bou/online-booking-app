@@ -3,8 +3,8 @@
 namespace App\Domain\Contract;
 
 use DateTimeImmutable;
-use App\Domain\Contract\UserModelInterface;
-use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Model\Restaurant;
+use App\Domain\Model\User;
 
 interface ReviewInterface
 {
@@ -22,9 +22,9 @@ interface ReviewInterface
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
 
-    public function getUser(): ?UserModelInterface;
-    public function setUser(?UserModelInterface $user): static;
+    public function getUser(): ?User;
+    public function setUser(?User $user): static;
 
-    public function getRestaurant(): ?RestaurantInterface;
-    public function setRestaurant(?RestaurantInterface $restaurant): static;
+    public function getRestaurant(): ?Restaurant;
+    public function setRestaurant(?Restaurant $restaurant): static;
 }

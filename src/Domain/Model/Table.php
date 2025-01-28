@@ -2,8 +2,8 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Contract\ReservationInterface;
-use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Model\Reservation;
+use App\Domain\Model\Restaurant;
 use App\Domain\Contract\TableInterface;
 use App\Infrastructure\Persistence\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,7 +30,7 @@ class Table implements TableInterface
 
     #[ORM\ManyToOne(inversedBy: 'tables')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?RestaurantInterface $restaurant = null;
+    private ?Restaurant $restaurant = null;
 
     /**
      * @var Collection<int, Reservation>
@@ -72,12 +72,12 @@ class Table implements TableInterface
         return $this;
     }
 
-    public function getRestaurant(): ?RestaurantInterface
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    public function setRestaurant(?RestaurantInterface $restaurant): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
         $this->restaurant = $restaurant;
 
@@ -92,7 +92,7 @@ class Table implements TableInterface
         return $this->reservations;
     }
 
-    public function addReservation(ReservationInterface $reservation): static
+    public function addReservation(Reservation $reservation): static
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
@@ -102,7 +102,7 @@ class Table implements TableInterface
         return $this;
     }
 
-    public function removeReservation(ReservationInterface $reservation): static
+    public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)

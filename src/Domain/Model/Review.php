@@ -3,8 +3,8 @@
 namespace App\Domain\Model;
 
 use App\Domain\Contract\ReviewInterface;
-use App\Domain\Contract\UserModelInterface;
-use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Model\User;
+use App\Domain\Model\Restaurant;
 use App\Infrastructure\Persistence\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,11 +38,11 @@ class Review implements ReviewInterface
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?UserModelInterface $_user = null;
+    private ?User $_user = null;
 
     #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?RestaurantInterface $restaurant = null;
+    private ?Restaurant $restaurant = null;
 
     public function __construct()
     {
@@ -106,23 +106,23 @@ class Review implements ReviewInterface
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getUser(): ?UserModelInterface
+    public function getUser(): ?User
     {
         return $this->_user;
     }
 
-    public function setUser(?UserModelInterface $_user): static
+    public function setUser(?User $_user): static
     {
         $this->_user = $_user;
         return $this;
     }
 
-    public function getRestaurant(): ?RestaurantInterface
+    public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
     }
 
-    public function setRestaurant(?RestaurantInterface $restaurant): static
+    public function setRestaurant(?Restaurant $restaurant): static
     {
         $this->restaurant = $restaurant;
         return $this;

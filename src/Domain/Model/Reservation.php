@@ -3,11 +3,11 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\PaymentInterface;
+use App\Domain\Model\Payment;
 use App\Domain\Contract\ReservationInterface;
-use App\Domain\Contract\TableInterface;
-use App\Domain\Contract\TimeSlotInterface;
-use App\Domain\Contract\UserModelInterface;
+use App\Domain\Model\Table;
+use App\Domain\Model\TimeSlot;
+use App\Domain\Model\UserModel;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -49,7 +49,7 @@ class Reservation implements ReservationInterface
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false, name: 'restaurant_table_id')]
-    private ?TableInterface $restaurantTable = null;
+    private ?Table $restaurantTable = null;
 
     /**
      * @var Collection<int, Payment>
@@ -70,12 +70,12 @@ class Reservation implements ReservationInterface
         return $this->id;
     }
 
-    public function getUser(): ?UserModelInterface
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?UserModelInterface $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
@@ -145,19 +145,19 @@ class Reservation implements ReservationInterface
         return $this->timeSlot;
     }
 
-    public function setTimeSlot(?TimeSlotInterface $timeSlot): static
+    public function setTimeSlot(?TimeSlot $timeSlot): static
     {
         $this->timeSlot = $timeSlot;
 
         return $this;
     }
 
-    public function getTable(): ?TableInterface
+    public function getTable(): ?Table
     {
         return $this->restaurantTable;
     }
 
-    public function setTable(?TableInterface $restaurantTable): static
+    public function setTable(?Table $restaurantTable): static
     {
         $this->restaurantTable = $restaurantTable;
 
@@ -172,7 +172,7 @@ class Reservation implements ReservationInterface
         return $this->payments;
     }
 
-    public function addPayment(PaymentInterface $payment): static
+    public function addPayment(Payment $payment): static
     {
         if (!$this->payments->contains($payment)) {
             $this->payments->add($payment);
@@ -182,7 +182,7 @@ class Reservation implements ReservationInterface
         return $this;
     }
 
-    public function removePayment(PaymentInterface $payment): static
+    public function removePayment(Payment $payment): static
     {
         if ($this->payments->removeElement($payment)) {
             // set the owning side to null (unless already changed)

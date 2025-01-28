@@ -2,7 +2,7 @@
 
 namespace App\Domain\Contract;
 
-use App\Domain\Contract\UserModelInterface;
+use App\Domain\Model\User;
 use DateTimeImmutable;
 
 interface NotificationInterface
@@ -19,6 +19,6 @@ interface NotificationInterface
     public function getCreatedAt(): ?DateTimeImmutable;
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
-    public function getUser(): ?UserModelInterface;
-    public function setUser(?UserModelInterface $user): static;
+    public function getUser(): ?User;
+    public function setUser(?User $user): static;
 }
