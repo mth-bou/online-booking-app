@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Model\User;
+use App\Domain\Model\Interface\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use App\Domain\Repository\UserRepositoryInterface;
@@ -15,20 +16,20 @@ class UserRepository implements UserRepositoryInterface
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->repository = $em->getRepository(User::class);
+        $this->repository = $em->getRepository(UserInterface::class);
     }
 
-    public function findById(int $id): ?User
+    public function findById(int $id): ?UserInterface
     {
         return $this->repository->find($id);
     }
 
-    public function findByEmail(string $email): ?User
+    public function findByEmail(string $email): ?UserInterface
     {
         return $this->repository->findOneBy(['email' => $email]);
     }
 
-    public function findByPhoneNumber(string $phoneNumber): ?User
+    public function findByPhoneNumber(string $phoneNumber): ?UserInterface
     {
         return $this->repository->findOneBy(['phoneNumber' => $phoneNumber]);
     }
@@ -63,13 +64,13 @@ class UserRepository implements UserRepositoryInterface
         return $count > 0;
     }
 
-    public function save(User $user): void
+    public function save(UserInterface $user): void
     {
         $this->em->persist($user);
         $this->em->flush();
     }
 
-    public function delete(User $user): void
+    public function delete(UserInterface $user): void
     {
         $this->em->remove($user);
         $this->em->flush();
