@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Doctrine\ORM\Mapping as ORM;
-use \User;
 
 #[ORM\MappedSuperclass]
 interface UserModelInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface

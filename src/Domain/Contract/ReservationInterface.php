@@ -6,9 +6,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use DateTimeInterface;
-use \TableInterface;
-use \TimeSlotInterface;
-use \UserModelInterface;
 
 #[ORM\MappedSuperclass]
 interface ReservationInterface
