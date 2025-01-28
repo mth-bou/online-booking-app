@@ -3,11 +3,11 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\PaymentInterface;
-use App\Domain\Model\ReservationInterface;
-use App\Domain\Model\TableInterface;
-use App\Domain\Model\TimeSlotInterface;
-use App\Domain\Model\UserInterface;
+use App\Domain\Contract\PaymentInterface;
+use App\Domain\Contract\ReservationInterface;
+use App\Domain\Contract\TableInterface;
+use App\Domain\Contract\TimeSlotInterface;
+use App\Domain\Contract\UserModelInterface;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -70,12 +70,12 @@ class Reservation implements ReservationInterface
         return $this->id;
     }
 
-    public function getUser(): ?UserInterface
+    public function getUser(): ?UserModelInterface
     {
         return $this->user;
     }
 
-    public function setUser(?UserInterface $user): static
+    public function setUser(?UserModelInterface $user): static
     {
         $this->user = $user;
 

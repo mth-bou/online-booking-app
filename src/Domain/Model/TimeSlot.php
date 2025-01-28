@@ -2,9 +2,9 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Model\ReservationInterface;
-use App\Domain\Model\RestaurantInterface;
-use App\Domain\Model\TimeSlotInterface;
+use App\Domain\Contract\ReservationInterface;
+use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Contract\TimeSlotInterface;
 use App\Infrastructure\Persistence\Repository\TimeSlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

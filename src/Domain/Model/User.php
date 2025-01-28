@@ -2,17 +2,18 @@
 
 namespace App\Domain\Model;
 
-use DateTimeImmutable;
+use App\Domain\Contract\UserModelInterface;
+use App\Infrastructure\Persistence\Repository\UserRepository;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use App\Domain\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Infrastructure\Persistence\Repository\UserRepository;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: '`user`')]
-class User implements UserInterface
+class User implements UserModelInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

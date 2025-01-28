@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use DateTimeInterface;
+use \TableInterface;
+use \TimeSlotInterface;
+use \UserModelInterface;
 
+#[ORM\MappedSuperclass]
 interface ReservationInterface
 {
     public function getId(): ?int;
-    public function getUser(): ?UserInterface;
-    public function setUser(?UserInterface $user): static;
+    public function getUser(): ?UserModelInterface;
+    public function setUser(?UserModelInterface $user): static;
     public function getDate(): ?DateTimeInterface;
     public function setDate(DateTimeInterface $date): static;
     public function getStatus(): ?string;

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
 use App\Domain\Model\Table;
 use App\Domain\Model\TimeSlot;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\MappedSuperclass]
 interface RestaurantInterface
 {
     public function getId(): ?int;

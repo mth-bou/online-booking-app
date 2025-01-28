@@ -2,9 +2,9 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Model\ReservationInterface;
-use App\Domain\Model\RestaurantInterface;
-use App\Domain\Model\TableInterface;
+use App\Domain\Contract\ReservationInterface;
+use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Contract\TableInterface;
 use App\Infrastructure\Persistence\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

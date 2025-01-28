@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\PaymentInterface;
+use App\Domain\Contract\PaymentInterface;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;

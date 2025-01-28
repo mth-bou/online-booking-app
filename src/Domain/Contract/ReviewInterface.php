@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
 use DateTimeImmutable;
-use App\Domain\Model\UserInterface;
-use App\Domain\Model\RestaurantInterface;
+use App\Domain\Contract\UserModelInterface;
+use App\Domain\Contract\RestaurantInterface;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\MappedSuperclass]
 interface ReviewInterface
 {
     public function getId(): ?int;
@@ -22,8 +24,8 @@ interface ReviewInterface
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
 
-    public function getUser(): ?UserInterface;
-    public function setUser(?UserInterface $user): static;
+    public function getUser(): ?UserModelInterface;
+    public function setUser(?UserModelInterface $user): static;
 
     public function getRestaurant(): ?RestaurantInterface;
     public function setRestaurant(?RestaurantInterface $restaurant): static;

@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
 use \App\Domain\Model\Notification;
-use App\Domain\Model\NotificationInterface;
+use App\Domain\Contract\NotificationInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;

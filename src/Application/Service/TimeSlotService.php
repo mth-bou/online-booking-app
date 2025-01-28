@@ -2,7 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\TimeSlotInterface;
+use App\Domain\Contract\TimeSlotInterface;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
 use DateTimeImmutable;

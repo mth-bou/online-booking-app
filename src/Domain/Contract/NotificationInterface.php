@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
-use App\Domain\Model\UserInterface;
+use App\Domain\Contract\UserModelInterface;
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 
+#[ORM\MappedSuperclass]
 interface NotificationInterface
 {
     public function getId(): ?int;
@@ -19,6 +21,6 @@ interface NotificationInterface
     public function getCreatedAt(): ?DateTimeImmutable;
     public function getUpdatedAt(): ?DateTimeImmutable;
     public function setUpdatedAt(DateTimeImmutable $updatedAt): static;
-    public function getUser(): ?UserInterface;
-    public function setUser(?UserInterface $user): static;
+    public function getUser(): ?UserModelInterface;
+    public function setUser(?UserModelInterface $user): static;
 }

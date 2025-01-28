@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use DateTimeInterface;
 
+#[ORM\MappedSuperclass]
 interface PaymentInterface
 {
     public function getId(): ?int;

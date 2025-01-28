@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Model\ReviewInterface;
+use App\Domain\Contract\ReviewInterface;
 
 interface ReviewRepositoryInterface
 {

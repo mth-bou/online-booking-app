@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use \User;
 
-interface UserInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface
+#[ORM\MappedSuperclass]
+interface UserModelInterface extends SymfonyUserInterface, PasswordAuthenticatedUserInterface
 {
     public function getId(): ?int;
     public function getEmail(): ?string;

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\ReservationInterface;
+use App\Domain\Contract\ReservationInterface;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;

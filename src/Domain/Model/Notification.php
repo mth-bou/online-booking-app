@@ -3,8 +3,8 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\UserInterface;
-use App\Domain\Model\NotificationInterface;
+use App\Domain\Contract\UserModelInterface;
+use App\Domain\Contract\NotificationInterface;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,7 +40,7 @@ class Notification implements NotificationInterface
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?UserInterface $_user = null;
+    private ?UserModelInterface $_user = null;
 
     public function __construct()
     {
@@ -136,12 +136,12 @@ class Notification implements NotificationInterface
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getUser(): ?UserInterface
+    public function getUser(): ?UserModelInterface
     {
         return $this->_user;
     }
 
-    public function setUser(?UserInterface $_user): static
+    public function setUser(?UserModelInterface $_user): static
     {
         $this->_user = $_user;
 

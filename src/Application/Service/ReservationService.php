@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\ReservationInterface;
+use App\Domain\Contract\ReservationInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\TimeSlotRepositoryInterface;

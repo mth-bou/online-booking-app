@@ -2,8 +2,8 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Model\RestaurantInterface;
-use App\Domain\Model\ReviewInterface;
+use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Contract\ReviewInterface;
 use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

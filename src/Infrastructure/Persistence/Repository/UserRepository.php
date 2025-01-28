@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Model\User;
-use App\Domain\Model\UserInterface;
+use App\Domain\Contract\UserModelInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use App\Domain\Repository\UserRepositoryInterface;
@@ -16,25 +16,25 @@ class UserRepository implements UserRepositoryInterface
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->repository = $em->getRepository(UserInterface::class);
+        $this->repository = $em->getRepository(UserModelInterface::class);
     }
 
-    public function createNew(): UserInterface
+    public function createNew(): UserModelInterface
     {
         return new User();
     }
 
-    public function findById(int $id): ?UserInterface
+    public function findById(int $id): ?UserModelInterface
     {
         return $this->repository->find($id);
     }
 
-    public function findByEmail(string $email): ?UserInterface
+    public function findByEmail(string $email): ?UserModelInterface
     {
         return $this->repository->findOneBy(['email' => $email]);
     }
 
-    public function findByPhoneNumber(string $phoneNumber): ?UserInterface
+    public function findByPhoneNumber(string $phoneNumber): ?UserModelInterface
     {
         return $this->repository->findOneBy(['phoneNumber' => $phoneNumber]);
     }
@@ -69,13 +69,13 @@ class UserRepository implements UserRepositoryInterface
         return $count > 0;
     }
 
-    public function save(UserInterface $user): void
+    public function save(UserModelInterface $user): void
     {
         $this->em->persist($user);
         $this->em->flush();
     }
 
-    public function delete(UserInterface $user): void
+    public function delete(UserModelInterface $user): void
     {
         $this->em->remove($user);
         $this->em->flush();

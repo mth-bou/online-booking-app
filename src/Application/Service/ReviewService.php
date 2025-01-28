@@ -2,9 +2,9 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\UserInterface;
-use App\Domain\Model\ReviewInterface;
-use App\Domain\Model\RestaurantInterface;
+use App\Domain\Contract\UserModelInterface;
+use App\Domain\Contract\ReviewInterface;
+use App\Domain\Contract\RestaurantInterface;
 
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
@@ -35,7 +35,7 @@ class ReviewService
 
         if (!$user || !$restaurant) throw new Exception("User or Restaurant not found.");
 
-        if (!$user instanceof UserInterface) throw new Exception("User does not implement UserInterface.");
+        if (!$user instanceof UserModelInterface) throw new Exception("User does not implement UserInterface.");
 
         if (!$restaurant instanceof RestaurantInterface) throw new Exception("Restaurant does not implement RestaurantInterface.");
 

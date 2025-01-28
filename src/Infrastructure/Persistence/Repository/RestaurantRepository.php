@@ -5,7 +5,7 @@ namespace App\Infrastructure\Persistence\Repository;
 use App\Domain\Model\Restaurant;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
-use App\Domain\Model\RestaurantInterface;
+use App\Domain\Contract\RestaurantInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
 
 class RestaurantRepository implements RestaurantRepositoryInterface

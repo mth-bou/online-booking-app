@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
-use App\Domain\Model\RestaurantInterface;
-use App\Domain\Model\ReservationInterface;
+use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Contract\ReservationInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\MappedSuperclass]
 interface TimeSlotInterface
 {
     public function getId(): ?int;

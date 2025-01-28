@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Model\RestaurantInterface;
+use App\Domain\Contract\RestaurantInterface;
 
 interface RestaurantRepositoryInterface
 {

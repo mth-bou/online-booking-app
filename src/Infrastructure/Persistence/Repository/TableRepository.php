@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
-use App\Domain\Model\TableInterface;
+use App\Domain\Contract\TableInterface;
 use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;

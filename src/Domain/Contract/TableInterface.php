@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Domain\Model;
+namespace App\Domain\Contract;
 
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\MappedSuperclass]
 interface TableInterface
 {
     public function getId(): ?int;
