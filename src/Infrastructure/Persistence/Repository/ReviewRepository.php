@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
-use App\Domain\Model\Interface\ReviewInterface;
+use App\Domain\Model\ReviewInterface;
 use App\Domain\Model\Review;
 use App\Domain\Repository\ReviewRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;

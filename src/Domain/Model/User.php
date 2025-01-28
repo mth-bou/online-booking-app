@@ -5,7 +5,7 @@ namespace App\Domain\Model;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
-use App\Domain\Model\Interface\UserInterface;
+use App\Domain\Model\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Infrastructure\Persistence\Repository\UserRepository;
 

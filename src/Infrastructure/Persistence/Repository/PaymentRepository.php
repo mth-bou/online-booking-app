@@ -4,7 +4,7 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
-use App\Domain\Model\Interface\PaymentInterface;
+use App\Domain\Model\PaymentInterface;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;

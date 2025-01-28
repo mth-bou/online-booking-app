@@ -7,7 +7,7 @@ use App\Domain\Model\TimeSlot;
 use App\Domain\Model\Reservation;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
-use App\Domain\Model\Interface\TimeSlotInterface;
+use App\Domain\Model\TimeSlotInterface;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
 use DateTimeImmutable;
 

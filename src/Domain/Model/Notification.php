@@ -3,8 +3,8 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Interface\UserInterface;
-use App\Domain\Model\Interface\NotificationInterface;
+use App\Domain\Model\UserInterface;
+use App\Domain\Model\NotificationInterface;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Interface\NotificationInterface;
+use App\Domain\Model\NotificationInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;

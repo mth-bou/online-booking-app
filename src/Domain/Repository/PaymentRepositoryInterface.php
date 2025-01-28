@@ -3,7 +3,7 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Interface\PaymentInterface;
+use App\Domain\Model\PaymentInterface;
 use DateTime;
 
 interface PaymentRepositoryInterface

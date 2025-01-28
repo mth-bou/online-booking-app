@@ -3,8 +3,8 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Interface\PaymentInterface;
-use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\PaymentInterface;
+use App\Domain\Model\ReservationInterface;
 use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

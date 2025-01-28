@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Model\User;
-use App\Domain\Model\Interface\UserInterface;
+use App\Domain\Model\UserInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;

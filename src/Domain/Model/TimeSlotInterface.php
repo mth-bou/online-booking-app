@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Domain\Model\Interface;
+namespace App\Domain\Model;
 
-use App\Domain\Model\Interface\RestaurantInterface;
-use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\RestaurantInterface;
+use App\Domain\Model\ReservationInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;

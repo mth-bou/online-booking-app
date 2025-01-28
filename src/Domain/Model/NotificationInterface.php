@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domain\Model\Interface;
+namespace App\Domain\Model;
 
-use App\Domain\Model\Interface\UserInterface;
+use App\Domain\Model\UserInterface;
 use DateTimeImmutable;
 
 interface NotificationInterface

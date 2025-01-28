@@ -2,9 +2,9 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Model\Interface\ReviewInterface;
-use App\Domain\Model\Interface\UserInterface;
-use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\ReviewInterface;
+use App\Domain\Model\UserInterface;
+use App\Domain\Model\RestaurantInterface;
 use App\Infrastructure\Persistence\Repository\ReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Model\User;
-use App\Domain\Model\Interface\UserInterface;
+use App\Domain\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use App\Domain\Repository\UserRepositoryInterface;

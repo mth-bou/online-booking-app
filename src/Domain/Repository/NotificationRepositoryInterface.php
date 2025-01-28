@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Model\Interface\NotificationInterface;
+use App\Domain\Model\NotificationInterface;
 use DateTime;
 
 interface NotificationRepositoryInterface

@@ -2,9 +2,9 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\Interface\UserInterface;
-use App\Domain\Model\Interface\ReviewInterface;
-use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\UserInterface;
+use App\Domain\Model\ReviewInterface;
+use App\Domain\Model\RestaurantInterface;
 
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;

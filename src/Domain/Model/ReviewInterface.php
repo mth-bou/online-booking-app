@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Model\Interface;
+namespace App\Domain\Model;
 
 use DateTimeImmutable;
-use App\Domain\Model\Interface\UserInterface;
-use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\UserInterface;
+use App\Domain\Model\RestaurantInterface;
 
 interface ReviewInterface
 {

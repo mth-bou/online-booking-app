@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Model\Interface\TableInterface;
+use App\Domain\Model\TableInterface;
 use DateTime;
 
 interface TableRepositoryInterface

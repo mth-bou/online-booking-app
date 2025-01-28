@@ -2,7 +2,7 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\ReservationInterface;
 
 interface ReservationRepositoryInterface
 {

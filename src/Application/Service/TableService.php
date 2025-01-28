@@ -2,7 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\Interface\TableInterface;
+use App\Domain\Model\TableInterface;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
 
