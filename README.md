@@ -40,7 +40,7 @@ Make sure you have the following installed:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/online-booking-app.git
+   git clone https://github.com/mth-bou/online-booking-app.git
    cd online-booking-app
    ```
 
