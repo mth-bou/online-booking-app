@@ -3,9 +3,10 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Model\Restaurant;
-use App\Domain\Repository\RestaurantRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
+use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Repository\RestaurantRepositoryInterface;
 
 class RestaurantRepository implements RestaurantRepositoryInterface
 {
@@ -18,7 +19,12 @@ class RestaurantRepository implements RestaurantRepositoryInterface
         $this->repository = $em->getRepository(Restaurant::class);
     }
 
-    public function findById(int $id): ?Restaurant
+    public function createNew(): RestaurantInterface
+    {
+        return new Restaurant();
+    }
+
+    public function findById(int $id): ?RestaurantInterface
     {
         return $this->repository->find($id);
     }
@@ -28,7 +34,7 @@ class RestaurantRepository implements RestaurantRepositoryInterface
         return $this->repository->findAll();
     }
 
-    public function findByName(string $name): ?Restaurant
+    public function findByName(string $name): ?RestaurantInterface
     {
         return $this->repository->findOneBy(['name' => $name]);
     }
@@ -64,13 +70,13 @@ class RestaurantRepository implements RestaurantRepositoryInterface
             ->getResult();
     }
 
-    public function save(Restaurant $restaurant): void
+    public function save(RestaurantInterface $restaurant): void
     {
         $this->em->persist($restaurant);
         $this->em->flush();
     }
 
-    public function delete(Restaurant $restaurant): void
+    public function delete(RestaurantInterface $restaurant): void
     {
         $this->em->remove($restaurant);
         $this->em->flush();

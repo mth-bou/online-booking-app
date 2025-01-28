@@ -2,13 +2,14 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Model\Interface\RestaurantInterface;
 use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
-class Restaurant
+class Restaurant implements RestaurantInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

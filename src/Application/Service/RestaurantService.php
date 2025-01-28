@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Domain\Model\Interface\RestaurantInterface;
 use Exception;
 use App\Domain\Model\Table;
 use App\Domain\Model\Restaurant;
@@ -34,12 +35,12 @@ class RestaurantService
         string $city,
         string $postalCode,
         string $phoneNumber
-    ): Restaurant {
+    ): RestaurantInterface {
         if ($this->restaurantRepository->findByName($name)) {
             throw new Exception("A restaurant with this name already exists.");
         }
 
-        $restaurant = new Restaurant();
+        $restaurant = $this->restaurantRepository->createNew();
         $restaurant->setName($name);
         $restaurant->setType($type);
         $restaurant->setDescription($description);
@@ -53,7 +54,7 @@ class RestaurantService
         return $restaurant;
     }
 
-    public function updateRestaurant(int $restaurantId, array $data): Restaurant
+    public function updateRestaurant(int $restaurantId, array $data): RestaurantInterface
     {
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
@@ -94,12 +95,12 @@ class RestaurantService
         $this->restaurantRepository->delete($restaurant);
     }
 
-    public function findRestaurantById(int $restaurantId): ?Restaurant
+    public function findRestaurantById(int $restaurantId): ?RestaurantInterface
     {
         return $this->restaurantRepository->findById($restaurantId);
     }
 
-    public function findRestaurantByName(string $name): ?Restaurant
+    public function findRestaurantByName(string $name): ?RestaurantInterface
     {
         return $this->restaurantRepository->findByName($name);
     }
