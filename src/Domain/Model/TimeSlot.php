@@ -2,6 +2,9 @@
 
 namespace App\Domain\Model;
 
+use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\Interface\TimeSlotInterface;
 use App\Infrastructure\Persistence\Repository\TimeSlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +15,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: TimeSlotRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class TimeSlot
+class TimeSlot implements TimeSlotInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,7 +45,7 @@ class TimeSlot
 
     #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'timeSlots')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Restaurant $restaurant = null;
+    private ?RestaurantInterface $restaurant = null;
 
     public function __construct()
     {
@@ -128,7 +131,7 @@ class TimeSlot
         return $this->restaurant;
     }
 
-    public function setRestaurant(?Restaurant $restaurant): static
+    public function setRestaurant(?RestaurantInterface $restaurant): static
     {
         $this->restaurant = $restaurant;
         return $this;
@@ -142,7 +145,7 @@ class TimeSlot
         return $this->reservations;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservation(ReservationInterface $reservation): static
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
@@ -152,7 +155,7 @@ class TimeSlot
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservation(ReservationInterface $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)

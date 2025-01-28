@@ -6,8 +6,10 @@ use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Interface\PaymentInterface;
 use App\Domain\Model\Interface\ReservationInterface;
 use App\Domain\Model\Interface\TableInterface;
+use App\Domain\Model\Interface\TimeSlotInterface;
 use App\Domain\Model\Interface\UserInterface;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -143,7 +145,7 @@ class Reservation implements ReservationInterface
         return $this->timeSlot;
     }
 
-    public function setTimeSlot(?TimeSlot $timeSlot): static
+    public function setTimeSlot(?TimeSlotInterface $timeSlot): static
     {
         $this->timeSlot = $timeSlot;
 

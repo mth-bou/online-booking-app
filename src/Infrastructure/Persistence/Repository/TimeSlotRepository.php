@@ -2,12 +2,13 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
+use DateTime;
 use App\Domain\Model\TimeSlot;
 use App\Domain\Model\Reservation;
-use App\Domain\Repository\TimeSlotRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
-use DateTime;
+use App\Domain\Model\Interface\TimeSlotInterface;
+use App\Domain\Repository\TimeSlotRepositoryInterface;
 
 class TimeSlotRepository implements TimeSlotRepositoryInterface
 {
@@ -20,7 +21,12 @@ class TimeSlotRepository implements TimeSlotRepositoryInterface
         $this->repository = $em->getRepository(TimeSlot::class);
     }
 
-    public function findById(int $id): ?TimeSlot
+    public function createNew(): TimeSlotInterface
+    {
+        return new TimeSlot();
+    }
+
+    public function findById(int $id): ?TimeSlotInterface
     {
         return $this->repository->find($id);
     }
@@ -74,13 +80,13 @@ class TimeSlotRepository implements TimeSlotRepositoryInterface
         return $count == 0;
     }
 
-    public function save(TimeSlot $timeSlot): void
+    public function save(TimeSlotInterface $timeSlot): void
     {
         $this->em->persist($timeSlot);
         $this->em->flush();
     }
 
-    public function delete(TimeSlot $timeSlot): void
+    public function delete(TimeSlotInterface $timeSlot): void
     {
         $this->em->remove($timeSlot);
         $this->em->flush();
