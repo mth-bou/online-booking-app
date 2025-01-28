@@ -71,6 +71,12 @@ Make sure you have the following installed:
    symfony server:start
    ```
 
+6. Or without Symfony CLI:
+
+   ```sh
+   php -S 127.0.0.1:3000 -t public
+   ```
+
 ## 🏗 Architecture Overview
 
 The application follows a **hexagonal architecture**, dividing the system into:
