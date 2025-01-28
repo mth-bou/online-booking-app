@@ -4,6 +4,7 @@ namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Interface\PaymentInterface;
+use App\Domain\Model\Interface\ReservationInterface;
 use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -136,12 +137,12 @@ class Payment implements PaymentInterface
         $this->updatedAt = new DateTimeImmutable();
     }
 
-    public function getReservation(): ?Reservation
+    public function getReservation(): ?ReservationInterface
     {
         return $this->reservation;
     }
 
-    public function setReservation(?Reservation $reservation): static
+    public function setReservation(?ReservationInterface $reservation): static
     {
         $this->reservation = $reservation;
 

@@ -3,6 +3,9 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
+use App\Domain\Model\Interface\PaymentInterface;
+use App\Domain\Model\Interface\ReservationInterface;
+use App\Domain\Model\Interface\UserInterface;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +16,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Reservation
+class Reservation implements ReservationInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -69,7 +72,7 @@ class Reservation
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?UserInterface $user): static
     {
         $this->user = $user;
 
@@ -166,7 +169,7 @@ class Reservation
         return $this->payments;
     }
 
-    public function addPayment(Payment $payment): static
+    public function addPayment(PaymentInterface $payment): static
     {
         if (!$this->payments->contains($payment)) {
             $this->payments->add($payment);
@@ -176,7 +179,7 @@ class Reservation
         return $this;
     }
 
-    public function removePayment(Payment $payment): static
+    public function removePayment(PaymentInterface $payment): static
     {
         if ($this->payments->removeElement($payment)) {
             // set the owning side to null (unless already changed)

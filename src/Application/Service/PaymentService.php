@@ -3,7 +3,6 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Payment;
 use App\Domain\Model\Interface\PaymentInterface;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;

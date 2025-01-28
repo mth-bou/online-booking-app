@@ -7,7 +7,6 @@ use App\Domain\Model\Interface\NotificationInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
-use DateTimeImmutable;
 
 class NotificationService
 {
