@@ -40,7 +40,7 @@ class TableRepository implements TableRepositoryInterface
             ->getResult();
     }
 
-    public function findAvailableTables(int $restaurantId, \DateTime $startTime, \DateTime $endTime, int $guests): array
+    public function findAvailableTables(int $restaurantId, DateTime $startTime, DateTime $endTime, int $guests): array
     {
         return $this->em->createQueryBuilder()
             ->select('t')
@@ -48,7 +48,7 @@ class TableRepository implements TableRepositoryInterface
             ->where('t.restaurant = :restaurantId')
             ->andWhere('t.capacity >= :guests')
             ->andWhere('t.id NOT IN (
-                SELECT r.table FROM \App\Domain\Model\Reservation r
+                SELECT r.restaurantTable FROM \App\Domain\Model\Reservation r
                 WHERE r.restaurant = :restaurantId
                 AND r.timeSlot.starTime < :endTime
                 AND r.timeSlot.endTime > :startTime
@@ -56,19 +56,23 @@ class TableRepository implements TableRepositoryInterface
             ->setParameter('restaurantId', $restaurantId)
             ->setParameter('starTime', $startTime)
             ->setParameter('endTime', $endTime)
+            ->setParameter('guests', $guests)
             ->getQuery()
             ->getResult();
     }
 
-    public function findReservedTables(int $restaurantId, \DateTime $startTime, \DateTime $endTime): array
+    public function findReservedTables(int $restaurantId, DateTime $startTime, DateTime $endTime): array
     {
         return $this->em->createQueryBuilder()
             ->select('t')
             ->from(Table::class, 't')
-            ->join('t.reservations', 'r')
-            ->where('r.restaurant = :restaurantId')
-            ->andWhere('r.timeSlot.starTime < :endTime')
-            ->andWhere('r.timeSlot.endTime > :startTime')
+            ->where('t.restaurant = :restaurantId')
+            ->andWhere('EXISTS (
+                SELECT 1 FROM App\Domain\Model\Reservation r
+                WHERE r.restaurantTable = t
+                AND r.timeSlot.startTime < :endTime
+                AND r.timeSlot.endTime > :startTime
+            )')
             ->setParameter('restaurantId', $restaurantId)
             ->setParameter('startTime', $startTime)
             ->setParameter('endTime', $endTime)
@@ -81,7 +85,7 @@ class TableRepository implements TableRepositoryInterface
         $count = $this->em->createQueryBuilder()
             ->select('COUNT(r.id)')
             ->from('App\Domain\Model\Reservation', 'r')
-            ->where('r.table = :tableId')
+            ->where('r.restaurantTable = :tableId')
             ->andWhere('r.timeSlot.startTime < :endTime')
             ->andWhere('r.timeSlot.endTime > :startTime')
             ->setParameter('tableId', $tableId)

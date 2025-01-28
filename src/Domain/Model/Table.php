@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
-#[ORM\Table(name: '`table`')]
+#[ORM\Table(name: 'restaurant_table')]
 class Table
 {
     #[ORM\Id]
@@ -32,7 +32,7 @@ class Table
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: '_table')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'restaurantTable')]
     private Collection $reservations;
 
     public function __construct()

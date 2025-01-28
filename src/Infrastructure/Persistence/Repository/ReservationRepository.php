@@ -35,7 +35,7 @@ class ReservationRepository implements ReservationRepositoryInterface
         return $this->em->createQueryBuilder()
         ->select('r')
         ->from(Reservation::class, 'r')
-        ->join('r.table', 't')
+        ->join('r.restaurantTable', 't')
         ->join('t.restaurant', 'rest')
         ->where('rest.id = :restaurantId')
         ->setParameter('restaurantId', $restaurantId)
@@ -45,7 +45,7 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findByTable(int $tableId): array
     {
-        return $this->repository->findBy(['table' => $tableId]);
+        return $this->repository->findBy(['restaurantTable' => $tableId]);
     }
 
     public function findByTimeSlot(int $timeSlotId): array
@@ -56,7 +56,7 @@ class ReservationRepository implements ReservationRepositoryInterface
     public function findActiveReservations(): array
     {
         return $this->repository->findBy([
-            'status' => [StatusEnum::PENDING, StatusEnum::CONFIRMED]
+            'status' => [StatusEnum::PENDING->value, StatusEnum::CONFIRMED->value]
         ]);
     }
 
@@ -73,7 +73,7 @@ class ReservationRepository implements ReservationRepositoryInterface
 
     public function findCancelledReservations(): array
     {
-        return $this->repository->findBy(['status' => StatusEnum::CANCELED]);
+        return $this->repository->findBy(['status' => StatusEnum::CANCELED->value]);
     }
 
     public function isTableAvailable(int $tableId, int $timeSlotId): bool
@@ -81,7 +81,7 @@ class ReservationRepository implements ReservationRepositoryInterface
         $count = $this->em->createQueryBuilder()
             ->select('COUNT(r.id)')
             ->from(Reservation::class, 'r')
-            ->where('r.table = :tableId')
+            ->where('r.restaurantTable = :tableId')
             ->andWhere('r.timeSlot = :timeSlotId')
             ->setParameter('tableId', $tableId)
             ->setParameter('timeSlotId', $timeSlotId)

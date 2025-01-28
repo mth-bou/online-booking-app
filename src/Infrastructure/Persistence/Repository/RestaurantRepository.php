@@ -59,7 +59,7 @@ class RestaurantRepository implements RestaurantRepositoryInterface
             ->where('r.name LIKE :keyword')
             ->orWhere('r.description LIKE :keyword')
             ->orWhere('r.city LIKE :keyword')
-            ->setParameter('keyword', value: '%' . $keyword . '%')
+            ->setParameter('keyword', '%' . $keyword . '%')
             ->getQuery()
             ->getResult();
     }

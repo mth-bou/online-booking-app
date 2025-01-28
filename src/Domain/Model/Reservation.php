@@ -40,8 +40,8 @@ class Reservation
     private ?TimeSlot $timeSlot = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Table $_table = null;
+    #[ORM\JoinColumn(nullable: false, name: 'restaurant_table_id')]
+    private ?Table $restaurantTable = null;
 
     /**
      * @var Collection<int, Payment>
@@ -137,12 +137,12 @@ class Reservation
 
     public function getTable(): ?Table
     {
-        return $this->_table;
+        return $this->restaurantTable;
     }
 
-    public function setTable(?Table $_table): static
+    public function setTable(?Table $restaurantTable): static
     {
-        $this->_table = $_table;
+        $this->restaurantTable = $restaurantTable;
 
         return $this;
     }
