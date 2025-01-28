@@ -3,6 +3,7 @@
 namespace App\Domain\Model;
 
 use App\Domain\Model\Interface\RestaurantInterface;
+use App\Domain\Model\Interface\ReviewInterface;
 use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -183,7 +184,7 @@ class Restaurant implements RestaurantInterface
         return $this->reviews;
     }
 
-    public function addReview(Review $review): static
+    public function addReview(ReviewInterface $review): static
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews->add($review);
@@ -192,7 +193,7 @@ class Restaurant implements RestaurantInterface
         return $this;
     }
 
-    public function removeReview(Review $review): static
+    public function removeReview(ReviewInterface $review): static
     {
         if ($this->reviews->removeElement($review)) {
             if ($review->getRestaurant() === $this) {

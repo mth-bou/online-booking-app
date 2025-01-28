@@ -3,7 +3,6 @@
 namespace App\Domain\Model\Interface;
 
 use App\Domain\Model\Table;
-use App\Domain\Model\Review;
 use App\Domain\Model\TimeSlot;
 use Doctrine\Common\Collections\Collection;
 
@@ -37,8 +36,8 @@ interface RestaurantInterface
     public function removeTable(Table $table): static;
 
     public function getReviews(): Collection;
-    public function addReview(Review $review): static;
-    public function removeReview(Review $review): static;
+    public function addReview(ReviewInterface $review): static;
+    public function removeReview(ReviewInterface $review): static;
 
     public function getTimeSlots(): Collection;
     public function addTimeSlot(TimeSlot $timeSlot): static;

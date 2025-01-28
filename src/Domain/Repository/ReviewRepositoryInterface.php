@@ -3,7 +3,6 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Model\Interface\ReviewInterface;
-use App\Domain\Model\Review;
 
 interface ReviewRepositoryInterface
 {

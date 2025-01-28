@@ -3,13 +3,13 @@
 namespace App\Application\Service;
 
 use App\Domain\Model\Interface\RestaurantInterface;
-use Exception;
 use App\Domain\Model\Table;
-use App\Domain\Model\Restaurant;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
+
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Exception;
 
 class RestaurantService
 {
