@@ -22,10 +22,10 @@ class TimeSlot
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $startTime = null;
+    private DateTimeInterface $startTime;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTimeInterface $endTime = null;
+    private DateTimeInterface $endTime;
 
     #[ORM\Column]
     private ?bool $isAvailable = null;
@@ -59,7 +59,7 @@ class TimeSlot
         return $this->id;
     }
 
-    public function getStartTime(): ?DateTimeInterface
+    public function getStartTime(): DateTimeInterface
     {
         return $this->startTime;
     }
@@ -71,7 +71,7 @@ class TimeSlot
         return $this;
     }
 
-    public function getEndTime(): ?DateTimeInterface
+    public function getEndTime(): DateTimeInterface
     {
         return $this->endTime;
     }

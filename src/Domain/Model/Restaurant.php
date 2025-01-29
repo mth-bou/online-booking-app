@@ -48,7 +48,7 @@ class Restaurant
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'restaurant', orphanRemoval: true)]
     private Collection $reviews;
 
-    #[ORM\OneToMany(targetEntity: TimeSlot::class, mappedBy: 'restaurant', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: TimeSlot::class, mappedBy: 'restaurant', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $timeSlots;
 
     public function __construct()

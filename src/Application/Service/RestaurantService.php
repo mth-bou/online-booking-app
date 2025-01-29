@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\RestaurantUseCaseInterface;
 use App\Domain\Model\Restaurant;
 use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
@@ -11,7 +12,7 @@ use App\Domain\Repository\RestaurantRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Exception;
 
-class RestaurantService
+class RestaurantService implements RestaurantUseCaseInterface
 {
     private RestaurantRepositoryInterface $restaurantRepository;
     private TableRepositoryInterface $tableRepository;
@@ -27,7 +28,7 @@ class RestaurantService
         $this->reviewRepository = $reviewRepository;
     }
 
-    public function addRestaurant(
+    public function createRestaurant(
         string $name,
         string $type,
         string $description,
@@ -41,7 +42,7 @@ class RestaurantService
             throw new Exception("A restaurant with this name already exists.");
         }
 
-        $restaurant = $this->restaurantRepository->createNew();
+        $restaurant = new Restaurant();
         $restaurant->setName($name);
         $restaurant->setType($type);
         $restaurant->setDescription($description);
@@ -71,22 +72,14 @@ class RestaurantService
             $restaurant->setName($data["name"]);
         }
 
-        if (isset($data["name"])) $restaurant->setName($data["name"]);
-
-        if (isset($data["type"])) $restaurant->setType($data["type"]);
-
-        if (isset($data["description"])) $restaurant->setDescription($data["description"]);
-
-        if (isset($data["address"])) $restaurant->setAddress($data["address"]);
-
-        if (isset($data["city"])) $restaurant->setCity($data["city"]);
-
-        if (isset($data["postalCode"])) $restaurant->setPostalCode($data["postalCode"]);
-
-        if (isset($data["phoneNumber"])) $restaurant->setPhoneNumber($data["phoneNumber"]);
+        foreach (['type', 'description', 'address', 'city', 'postalCode', 'phoneNumber'] as $field) {
+            if (isset($data[$field])) {
+                $setter = 'set' . ucfirst($field);
+                $restaurant->$setter($data[$field]);
+            }
+        }
 
         $this->restaurantRepository->save($restaurant);
-
         return $restaurant;
     }
 
@@ -100,22 +93,22 @@ class RestaurantService
         $this->restaurantRepository->delete($restaurant);
     }
 
-    public function findRestaurantById(int $restaurantId): ?Restaurant
+    public function getRestaurantById(int $restaurantId): ?Restaurant
     {
         return $this->restaurantRepository->findById($restaurantId);
     }
 
-    public function findRestaurantByName(string $name): ?Restaurant
+    public function getRestaurantByName(string $name): ?Restaurant
     {
         return $this->restaurantRepository->findByName($name);
     }
 
-    public function findRestaurantsByCity(string $city): array
+    public function getRestaurantsByCity(string $city): array
     {
         return $this->restaurantRepository->findByCity($city);
     }
 
-    public function findRestaurantsByMinimumCapacity(int $capacity): array
+    public function getRestaurantsByMinimumCapacity(int $capacity): array
     {
         return $this->restaurantRepository->findByMinimumCapacity($capacity);
     }
@@ -169,6 +162,6 @@ class RestaurantService
 
     public function calculateAverageRating(int $restaurantId): ?float
     {
-        return $this->reviewRepository->getAverageRating($restaurantId);
+        return $this->reviewRepository->getAverageRating($restaurantId) ?? 0.0;
     }
 }
