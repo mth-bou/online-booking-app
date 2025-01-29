@@ -3,16 +3,33 @@
 namespace App\Application\DTO\Payment;
 
 use App\Domain\Model\Payment;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema]
 class PaymentResponseDTO
 {
+    #[OA\Property(type: "integer", example: 1)]
     public int $id;
+
+    #[OA\Property(type: "integer", example: 123)]
     public int $reservationId;
+
+    #[OA\Property(type: "number", format: "float", example: 99.99)]
     public float $amount;
+
+    #[OA\Property(type: "string", example: "credit_card")]
     public string $paymentMethod;
+
+    #[OA\Property(type: "string", example: "confirmed")]
     public string $status;
+
+    #[OA\Property(type: "string", format: "date-time", example: "2023-10-15 14:23:00")]
     public string $paymentDate;
+
+    #[OA\Property(type: "string", format: "date-time", example: "2023-10-15 14:23:00")]
     public string $createdAt;
+
+    #[OA\Property(type: "string", format: "date-time", example: "2023-10-15 14:23:00")]
     public string $updatedAt;
 
     public function __construct(Payment $payment)
