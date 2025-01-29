@@ -17,12 +17,11 @@
 
 - **Backend:** Symfony 7.2 (PHP 8.2+)
 - **Architecture:** Hexagonal
-- **Database:** PostgreSQL / MySQL
-- **Authentication:** JWT (LexikJWTAuthenticationBundle)
-- **API:** RESTful API using Symfony API Platform
+- **Database:** PostgreSQL
+- **API:** RESTful API
 - **Frontend:** API-ready (compatible with React, Vue, Angular)
-- **Testing:** PHPUnit / Behat
-- **Deployment:** Docker / Kubernetes
+- **Testing:** PHPUnit
+- **Deployment:** Docker
 
 ## 🚀 Getting Started
 

@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\TimeSlotUseCaseInterface;
 use App\Domain\Model\TimeSlot;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
@@ -9,7 +10,7 @@ use DateTimeImmutable;
 use Exception;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class TimeSlotService
+class TimeSlotService implements TimeSlotUseCaseInterface
 {
     private TimeSlotRepositoryInterface $timeSlotRepository;
     private RestaurantRepositoryInterface $restaurantRepository;
@@ -78,9 +79,23 @@ class TimeSlotService
             throw new NotFoundResourceException("Time slot not found.");
         }
 
-        if ($startTime !== null) $timeSlot->setStartTime($startTime);
-        if ($endTime !== null) $timeSlot->setEndTime($endTime);
+        if ($startTime !== null) {
+            if ($endTime !== null && $startTime >= $endTime) {
+                throw new Exception("Start time must be before end time.");
+            }
+            $timeSlot->setStartTime($startTime);
+        }
+
+        if ($endTime !== null) {
+            if ($startTime !== null && $startTime >= $endTime) {
+                throw new Exception("End time must be after start time.");
+            }
+            $timeSlot->setEndTime($endTime);
+        }
+
         if ($isAvailable !== null) $timeSlot->setIsAvailable($isAvailable);
+        
+        $timeSlot->setUpdatedAt(new DateTimeImmutable());
 
         $this->timeSlotRepository->save($timeSlot);
 
