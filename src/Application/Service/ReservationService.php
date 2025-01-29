@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\ReservationUseCaseInterface;
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
@@ -11,7 +12,7 @@ use App\Domain\Repository\UserRepositoryInterface;
 use DateTimeImmutable;
 use Exception;
 
-class ReservationService
+class ReservationService implements ReservationUseCaseInterface
 {
     private ReservationRepositoryInterface $reservationRepository;
     private TableRepositoryInterface $tableRepository;
