@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\PaymentInterface;
+use App\Domain\Model\Payment;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -22,7 +22,7 @@ class PaymentService
         $this->reservationRepository = $reservationRepository;
     }
 
-    public function processPayment(int $reservationId, float $amount, string $paymentMethod): PaymentInterface
+    public function processPayment(int $reservationId, float $amount, string $paymentMethod): Payment
     {
         $reservation = $this->reservationRepository->findById($reservationId);
         if (!$reservation) {
@@ -44,7 +44,7 @@ class PaymentService
     public function confirmPayment(int $paymentId): void
     {
         $payment = $this->paymentRepository->findById($paymentId);
-        if (!$payment instanceof PaymentInterface) {
+        if (!$payment) {
             throw new NotFoundResourceException("Payment not found.");
         }
 
@@ -55,7 +55,7 @@ class PaymentService
     public function refundPayment(int $paymentId): void
     {
         $payment = $this->paymentRepository->findById($paymentId);
-        if (!$payment instanceof PaymentInterface) {
+        if (!$payment) {
             throw new NotFoundResourceException("Payment not found.");
         }
 

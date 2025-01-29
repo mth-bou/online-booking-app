@@ -4,10 +4,8 @@ namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
-use App\Domain\Contract\ReservationInterface;
 use App\Domain\Model\Table;
 use App\Domain\Model\TimeSlot;
-use App\Domain\Model\UserModel;
 use App\Infrastructure\Persistence\Repository\ReservationRepository;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +17,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Reservation implements ReservationInterface
+class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

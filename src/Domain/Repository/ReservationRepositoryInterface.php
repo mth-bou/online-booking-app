@@ -2,12 +2,12 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Contract\ReservationInterface;
+use App\Domain\Model\Reservation;
 
 interface ReservationRepositoryInterface
 {
-    public function createNew(): ReservationInterface;
-    public function findById(int $id): ?ReservationInterface;
+    public function createNew(): Reservation;
+    public function findById(int $id): ?Reservation;
     public function findByUser(int $userId): array;
     public function findByRestaurant(int $restaurantId): array;
     public function findByTable(int $tableId): array;
@@ -16,6 +16,6 @@ interface ReservationRepositoryInterface
     public function findPastReservations(): array;
     public function findCancelledReservations(): array;
     public function isTableAvailable(int $tableId, int $timeSlotId): bool;
-    public function save(ReservationInterface $reservation): void;
-    public function delete(ReservationInterface $reservation): void;
+    public function save(Reservation $reservation): void;
+    public function delete(Reservation $reservation): void;
 }

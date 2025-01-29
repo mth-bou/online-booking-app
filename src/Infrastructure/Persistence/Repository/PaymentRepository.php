@@ -4,7 +4,6 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
-use App\Domain\Contract\PaymentInterface;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -22,7 +21,7 @@ class PaymentRepository implements PaymentRepositoryInterface
         $this->repository = $em->getRepository(Payment::class);
     }
 
-    public function createNew(): PaymentInterface
+    public function createNew(): Payment
     {
         return new Payment();
     }
@@ -111,13 +110,13 @@ class PaymentRepository implements PaymentRepositoryInterface
             ->getResult();
     }
 
-    public function save(PaymentInterface $payment): void
+    public function save(Payment $payment): void
     {
         $this->em->persist($payment);
         $this->em->flush();
     }
 
-    public function delete(PaymentInterface $payment): void
+    public function delete(Payment $payment): void
     {
         $this->em->remove($payment);
         $this->em->flush();

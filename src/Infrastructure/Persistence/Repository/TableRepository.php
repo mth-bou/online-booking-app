@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Persistence\Repository;
 
-use App\Domain\Contract\TableInterface;
 use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,12 +19,12 @@ class TableRepository implements TableRepositoryInterface
         $this->repository = $em->getRepository(Table::class);
     }
 
-    public function createnew(): TableInterface
+    public function createnew(): Table
     {
         return new Table();
     }
 
-    public function findById(int $id): ?TableInterface
+    public function findById(int $id): ?Table
     {
         return $this->repository->find($id);
     }
@@ -103,13 +102,13 @@ class TableRepository implements TableRepositoryInterface
         return $count == 0;
     }
 
-    public function save(TableInterface $table): void
+    public function save(Table $table): void
     {
         $this->em->persist($table);
         $this->em->flush();
     }
 
-    public function delete(TableInterface $table): void
+    public function delete(Table $table): void
     {
         $this->em->remove($table);
         $this->em->flush();

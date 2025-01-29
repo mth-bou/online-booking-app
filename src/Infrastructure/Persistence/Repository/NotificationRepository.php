@@ -4,7 +4,6 @@ namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
 use \App\Domain\Model\Notification;
-use App\Domain\Contract\NotificationInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -22,12 +21,12 @@ class NotificationRepository implements NotificationRepositoryInterface
         $this->repository = $em->getRepository(Notification::class);
     }
 
-    public function createNew(): NotificationInterface
+    public function createNew(): Notification
     {
         return new Notification();
     }
 
-    public function findById(int $id): ?NotificationInterface
+    public function findById(int $id): ?Notification
     {
         return $this->repository->find($id);
     }
@@ -75,7 +74,7 @@ class NotificationRepository implements NotificationRepositoryInterface
     public function markAsRead(int $notificationId): void
     {
         $notification = $this->repository->find($notificationId);
-        if ($notification instanceof NotificationInterface) {
+        if ($notification) {
             $notification->setIsRead(true);
             $notification->setupdatedAt(new DateTimeImmutable());
             $this->save($notification);
@@ -99,19 +98,19 @@ class NotificationRepository implements NotificationRepositoryInterface
     public function updateNotificationStatus(int $notificationId, string $status): void
     {
         $notification = $this->repository->find($notificationId);
-        if ($notification instanceof NotificationInterface) {
+        if ($notification) {
             $notification->setStatus($status);
             $this->save($notification);
         }
     }
 
-    public function save(NotificationInterface $notification): void
+    public function save(Notification $notification): void
     {
         $this->em->persist($notification);
         $this->em->flush();
     }
 
-    public function delete(NotificationInterface $notification): void
+    public function delete(Notification $notification): void
     {
         $this->em->remove($notification);
         $this->em->flush();

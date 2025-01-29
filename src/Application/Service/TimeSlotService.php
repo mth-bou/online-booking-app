@@ -2,7 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\TimeSlotInterface;
+use App\Domain\Model\TimeSlot;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
 use DateTimeImmutable;
@@ -27,12 +27,12 @@ class TimeSlotService
         DateTimeImmutable $startTime,
         DateTimeImmutable $endTime,
         bool $isAvailable
-        ): TimeSlotInterface
-    {
+        ): TimeSlot {
+
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
         if (!$restaurant) {
-            throw new Exception("Restaurant not found.");
+            throw new NotFoundResourceException("Restaurant not found.");
         }
 
         if ($startTime >= $endTime) {
@@ -50,7 +50,7 @@ class TimeSlotService
         return $timeSlot;
     }
 
-    public function findTimeSlotById(int $timeSlotId): ?TimeSlotInterface
+    public function findTimeSlotById(int $timeSlotId): ?TimeSlot
     {
         return $this->timeSlotRepository->findById($timeSlotId);
     }
@@ -70,7 +70,8 @@ class TimeSlotService
         ?DateTimeImmutable $startTime = null,
         ?DateTimeImmutable $endTime = null,
         ?bool $isAvailable = null
-    ) : TimeSlotInterface {
+    ) : TimeSlot {
+
         $timeSlot = $this->timeSlotRepository->findById($timeSlotId);
 
         if (!$timeSlot) {

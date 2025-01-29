@@ -2,7 +2,6 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Contract\RestaurantInterface;
 use App\Domain\Model\Review;
 use App\Domain\Model\Table;
 use App\Domain\Model\TimeSlot;
@@ -12,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
-class Restaurant implements RestaurantInterface
+class Restaurant
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

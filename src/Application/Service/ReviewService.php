@@ -2,10 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\UserModelInterface;
-use App\Domain\Contract\ReviewInterface;
-use App\Domain\Contract\RestaurantInterface;
-
+use App\Domain\Model\Review;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
@@ -28,16 +25,12 @@ class ReviewService
         $this->userRepository = $userRepository;
     }
 
-    public function addReview(int $userId, int $restaurantId, int $rating, ?string $comment): ReviewInterface
+    public function addReview(int $userId, int $restaurantId, int $rating, ?string $comment): Review
     {
         $user = $this->userRepository->findById($userId);
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
         if (!$user || !$restaurant) throw new Exception("User or Restaurant not found.");
-
-        if (!$user instanceof UserModelInterface) throw new Exception("User does not implement UserInterface.");
-
-        if (!$restaurant instanceof RestaurantInterface) throw new Exception("Restaurant does not implement RestaurantInterface.");
 
         $review = $this->reviewRepository->createNew();
         $review->setUser($user);

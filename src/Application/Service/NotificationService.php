@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\NotificationInterface;
+use App\Domain\Model\Notification;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -18,7 +18,7 @@ class NotificationService
         $this->userRepository = $userRepository;
     }
 
-    public function sendNotification(int $userId, string $message): NotificationInterface
+    public function sendNotification(int $userId, string $message): Notification
     {
         $user = $this->userRepository->findById($userId);
 
@@ -39,7 +39,7 @@ class NotificationService
     public function markNotificationAsSent(int $notificationId): void
     {
         $notification = $this->notificationRepository->findById($notificationId);
-        if (!$notification instanceof NotificationInterface) {
+        if (!$notification) {
             throw new NotFoundResourceException("Notification not found.");
         }
 
@@ -50,7 +50,7 @@ class NotificationService
     public function markNotificationAsRead(int $notificationId): void
     {
         $notification = $this->notificationRepository->findById($notificationId);
-        if (!$notification instanceof NotificationInterface) {
+        if (!$notification) {
             throw new NotFoundResourceException("Notification not found.");
         }
 

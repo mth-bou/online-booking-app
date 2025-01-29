@@ -2,17 +2,17 @@
 
 namespace App\Domain\Repository;
 
-use App\Domain\Contract\UserModelInterface;
+use App\Domain\Model\User;
 
 interface UserRepositoryInterface
 {
-    public function createNew(): UserModelInterface;
-    public function findById(int $id): ?UserModelInterface;
-    public function findByEmail(string $email): ?UserModelInterface;
-    public function findByPhoneNumber(string $phoneNumber): ?UserModelInterface;
+    public function createNew(): User;
+    public function findById(int $id): ?User;
+    public function findByEmail(string $email): ?User;
+    public function findByPhoneNumber(string $phoneNumber): ?User;
     public function searchByName(string $name): array;
     public function findAll(): array;
     public function emailExists(string $email): bool;
-    public function save(UserModelInterface $user): void;
-    public function delete(UserModelInterface $user): void;
+    public function save(User $user): void;
+    public function delete(User $user): void;
 }

@@ -4,7 +4,6 @@ namespace App\Domain\Model;
 
 use App\Domain\Model\Reservation;
 use App\Domain\Model\Restaurant;
-use App\Domain\Contract\TableInterface;
 use App\Infrastructure\Persistence\Repository\TableRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TableRepository::class)]
 #[ORM\Table(name: 'restaurant_table')]
-class Table implements TableInterface
+class Table
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

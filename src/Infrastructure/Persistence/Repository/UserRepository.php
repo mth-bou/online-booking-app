@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Model\User;
-use App\Domain\Contract\UserModelInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use App\Domain\Repository\UserRepositoryInterface;
@@ -19,22 +18,22 @@ class UserRepository implements UserRepositoryInterface
         $this->repository = $em->getRepository(User::class);
     }
 
-    public function createNew(): UserModelInterface
+    public function createNew(): User
     {
         return new User();
     }
 
-    public function findById(int $id): ?UserModelInterface
+    public function findById(int $id): ?User
     {
         return $this->repository->find($id);
     }
 
-    public function findByEmail(string $email): ?UserModelInterface
+    public function findByEmail(string $email): ?User
     {
         return $this->repository->findOneBy(['email' => $email]);
     }
 
-    public function findByPhoneNumber(string $phoneNumber): ?UserModelInterface
+    public function findByPhoneNumber(string $phoneNumber): ?User
     {
         return $this->repository->findOneBy(['phoneNumber' => $phoneNumber]);
     }
@@ -69,13 +68,13 @@ class UserRepository implements UserRepositoryInterface
         return $count > 0;
     }
 
-    public function save(UserModelInterface $user): void
+    public function save(User $user): void
     {
         $this->em->persist($user);
         $this->em->flush();
     }
 
-    public function delete(UserModelInterface $user): void
+    public function delete(User $user): void
     {
         $this->em->remove($user);
         $this->em->flush();

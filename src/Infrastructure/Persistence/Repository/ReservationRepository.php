@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Persistence\Repository;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\ReservationInterface;
 use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,12 +20,12 @@ class ReservationRepository implements ReservationRepositoryInterface
         $this->repository = $em->getRepository(Reservation::class);
     }
 
-    public function createNew(): ReservationInterface
+    public function createNew(): Reservation
     {
         return new Reservation();
     }
 
-    public function findById(int $id): ?ReservationInterface
+    public function findById(int $id): ?Reservation
     {
         return $this->repository->find($id);
     }
@@ -97,13 +96,13 @@ class ReservationRepository implements ReservationRepositoryInterface
         return $count == 0;
     }
 
-    public function save(ReservationInterface $reservation): void
+    public function save(Reservation $reservation): void
     {
         $this->em->persist($reservation);
         $this->em->flush();
     }
 
-    public function delete(ReservationInterface $reservation): void
+    public function delete(Reservation $reservation): void
     {
         $this->em->remove($reservation);
         $this->em->flush();

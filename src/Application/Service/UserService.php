@@ -3,7 +3,6 @@
 namespace App\Application\Service;
 
 use App\Domain\Model\User;
-use App\Domain\Contract\UserModelInterface;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
@@ -41,7 +40,7 @@ class UserService
         ?string $firstname,
         ?string $lastname,
         ?string $phonNumber
-        ): UserModelInterface
+        ): User
     {
         if ($this->userRepository->emailExists($email)) {
             throw new Exception("Email already in use.");
@@ -84,7 +83,7 @@ class UserService
     {
         $user = $this->userRepository->findById($userId);
 
-        if (!$user) throw new Exception("User not found.");
+        if (!$user) throw new NotFoundResourceException("User not found.");
 
         if (isset($data['firstname'])) $user->setFirstname($data['firstname']);
 

@@ -2,7 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\TableInterface;
+use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
 
@@ -22,7 +22,7 @@ class TableService
         $this->restaurantRepository = $restaurantRepository;
     }
 
-    public function addTable(int $restaurantId, int $capacity, string $tableNumber): TableInterface
+    public function addTable(int $restaurantId, int $capacity, string $tableNumber): Table
     {
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 

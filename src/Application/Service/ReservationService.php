@@ -3,7 +3,7 @@
 namespace App\Application\Service;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\ReservationInterface;
+use App\Domain\Model\Reservation;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\TimeSlotRepositoryInterface;
@@ -30,7 +30,7 @@ class ReservationService
         $this->userRepository = $userRepository;
     }
 
-    public function createReservation(int $userId, int $tableId, int $timeSlotId): ReservationInterface
+    public function createReservation(int $userId, int $tableId, int $timeSlotId): Reservation
     {
         $user = $this->userRepository->findById($userId);
         $table = $this->tableRepository->findById($tableId);
@@ -65,7 +65,7 @@ class ReservationService
     {
         $reservation = $this->reservationRepository->findById($reservationId);
 
-        if (!$reservation instanceof ReservationInterface) {
+        if (!$reservation) {
             throw new Exception("Reservation not found.");
         }
 
@@ -78,7 +78,7 @@ class ReservationService
     {
         $reservation = $this->reservationRepository->findById($reservationId);
 
-        if (!$reservation instanceof ReservationInterface) {
+        if (!$reservation) {
             throw new Exception("Reservation not found.");
         }
 
@@ -91,7 +91,7 @@ class ReservationService
     {
         $reservation = $this->reservationRepository->findById($reservationId);
 
-        if (!$reservation instanceof ReservationInterface) {
+        if (!$reservation) {
             throw new Exception("Reservation not found.");
         }
 
@@ -104,7 +104,7 @@ class ReservationService
     {
         $reservation = $this->reservationRepository->findById($reservationId);
         
-        if (!$reservation instanceof ReservationInterface) {
+        if (!$reservation) {
             throw new Exception("Reservation not found.");
         }
 

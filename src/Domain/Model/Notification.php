@@ -4,7 +4,6 @@ namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\User;
-use App\Domain\Contract\NotificationInterface;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,7 +11,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Notification implements NotificationInterface
+class Notification
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

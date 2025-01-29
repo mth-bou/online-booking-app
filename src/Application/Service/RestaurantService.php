@@ -2,7 +2,7 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Contract\RestaurantInterface;
+use App\Domain\Model\Restaurant;
 use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
@@ -35,7 +35,8 @@ class RestaurantService
         string $city,
         string $postalCode,
         string $phoneNumber
-    ): RestaurantInterface {
+    ): Restaurant {
+
         if ($this->restaurantRepository->findByName($name)) {
             throw new Exception("A restaurant with this name already exists.");
         }
@@ -54,7 +55,7 @@ class RestaurantService
         return $restaurant;
     }
 
-    public function updateRestaurant(int $restaurantId, array $data): RestaurantInterface
+    public function updateRestaurant(int $restaurantId, array $data): Restaurant
     {
         $restaurant = $this->restaurantRepository->findById($restaurantId);
 
@@ -99,12 +100,12 @@ class RestaurantService
         $this->restaurantRepository->delete($restaurant);
     }
 
-    public function findRestaurantById(int $restaurantId): ?RestaurantInterface
+    public function findRestaurantById(int $restaurantId): ?Restaurant
     {
         return $this->restaurantRepository->findById($restaurantId);
     }
 
-    public function findRestaurantByName(string $name): ?RestaurantInterface
+    public function findRestaurantByName(string $name): ?Restaurant
     {
         return $this->restaurantRepository->findByName($name);
     }

@@ -4,7 +4,6 @@ namespace App\Domain\Model;
 
 use App\Domain\Model\Reservation;
 use App\Domain\Model\Restaurant;
-use App\Domain\Contract\TimeSlotInterface;
 use App\Infrastructure\Persistence\Repository\TimeSlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +14,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: TimeSlotRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class TimeSlot implements TimeSlotInterface
+class TimeSlot
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

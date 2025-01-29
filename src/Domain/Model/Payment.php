@@ -3,7 +3,6 @@
 namespace App\Domain\Model;
 
 use App\Domain\Enum\StatusEnum;
-use App\Domain\Contract\PaymentInterface;
 use App\Domain\Model\Reservation;
 use App\Infrastructure\Persistence\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
@@ -13,7 +12,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Payment implements PaymentInterface
+class Payment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

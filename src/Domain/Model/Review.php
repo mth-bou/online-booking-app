@@ -2,7 +2,6 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Contract\ReviewInterface;
 use App\Domain\Model\User;
 use App\Domain\Model\Restaurant;
 use App\Infrastructure\Persistence\Repository\ReviewRepository;
@@ -12,7 +11,7 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Review implements ReviewInterface
+class Review
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
