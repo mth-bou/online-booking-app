@@ -11,4 +11,6 @@ interface NotificationUseCaseInterface
     public function markNotificationAsSent(int $notificationId): void;
 
     public function markNotificationAsRead(int $notificationId): void;
+
+    public function getNotificationById(int $notificationId): Notification;
 }

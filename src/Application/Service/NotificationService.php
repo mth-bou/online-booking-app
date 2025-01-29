@@ -58,4 +58,14 @@ class NotificationService implements NotificationUseCaseInterface
         $notification->setIsRead(true);
         $this->notificationRepository->save($notification);
     }
+
+    public function getNotificationById(int $notificationId): Notification
+    {
+        $notification = $this->notificationRepository->findById($notificationId);
+        if (!$notification) {
+            throw new NotFoundResourceException("Notification not found.");
+        }
+
+        return $notification;
+    }
 }
