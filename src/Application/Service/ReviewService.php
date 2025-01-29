@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\ReviewUseCaseInterface;
 use App\Domain\Model\Review;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\Repository\ReviewRepositoryInterface;
@@ -9,7 +10,7 @@ use App\Domain\Repository\RestaurantRepositoryInterface;
 
 use Exception;
 
-class ReviewService
+class ReviewService implements ReviewUseCaseInterface
 {
     private ReviewRepositoryInterface $reviewRepository;
     private RestaurantRepositoryInterface $restaurantRepository;

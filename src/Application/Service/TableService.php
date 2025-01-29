@@ -2,6 +2,7 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\TableUseCaseInterface;
 use App\Domain\Model\Table;
 use App\Domain\Repository\TableRepositoryInterface;
 use App\Domain\Repository\RestaurantRepositoryInterface;
@@ -9,7 +10,7 @@ use App\Domain\Repository\RestaurantRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use DateTime;
 
-class TableService
+class TableService implements TableUseCaseInterface
 {
     private TableRepositoryInterface $tableRepository;
     private RestaurantRepositoryInterface $restaurantRepository;
