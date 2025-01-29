@@ -6,7 +6,7 @@ use App\Domain\Model\Notification;
 
 interface NotificationUseCaseInterface
 {
-    public function sendNotification(int $userId, string $message): Notification;
+    public function sendNotification(int $userId, string $message, string $type): Notification;
 
     public function markNotificationAsSent(int $notificationId): void;
 

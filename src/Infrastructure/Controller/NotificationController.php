@@ -30,14 +30,23 @@ class NotificationController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        $dto = new NotificationRequestDTO($data['userId'] ?? 0, $data['message'] ?? '');
+        $dto = new NotificationRequestDTO(
+            $data['userId'] ?? 0,
+            $data['message'] ?? '',
+            $data['type'] ?? ''
+        );
+
         $errors = $this->validator->validate($dto);
 
         if (count($errors) > 0) {
             return new JsonResponse(['error' => (string) $errors], Response::HTTP_BAD_REQUEST);
         }
 
-        $notification = $this->notificationService->sendNotification($dto->userId, $dto->message);
+        $notification = $this->notificationService->sendNotification(
+            $dto->userId,
+            $dto->message,
+            $dto->type
+        );
 
         return new JsonResponse(new NotificationResponseDTO($notification), Response::HTTP_CREATED);
     }
