@@ -2,11 +2,12 @@
 
 namespace App\Application\Service;
 
-use App\Application\Port\NotificationUseCaseInterface;
+use DateTimeImmutable;
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Notification;
-use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Application\Port\NotificationUseCaseInterface;
+use App\Domain\Repository\NotificationRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class NotificationService implements NotificationUseCaseInterface
@@ -19,7 +20,7 @@ class NotificationService implements NotificationUseCaseInterface
         $this->userRepository = $userRepository;
     }
 
-    public function sendNotification(int $userId, string $message): Notification
+    public function sendNotification(int $userId, string $message, string $type): Notification
     {
         $user = $this->userRepository->findById($userId);
 
@@ -30,7 +31,9 @@ class NotificationService implements NotificationUseCaseInterface
         $notification = $this->notificationRepository->createNew();
         $notification->setUser($user);
         $notification->setMessage($message);
+        $notification->setType($type);
         $notification->setStatus(StatusEnum::PENDING->value);
+        $notification->setIsRead(false);
 
         $this->notificationRepository->save($notification);
 
@@ -45,6 +48,7 @@ class NotificationService implements NotificationUseCaseInterface
         }
 
         $notification->setStatus(StatusEnum::SENT->value);
+        $notification->setUpdatedAt(new DateTimeImmutable());
         $this->notificationRepository->save($notification);
     }
 
@@ -56,6 +60,7 @@ class NotificationService implements NotificationUseCaseInterface
         }
 
         $notification->setIsRead(true);
+        $notification->setUpdatedAt(new DateTimeImmutable());
         $this->notificationRepository->save($notification);
     }
 
