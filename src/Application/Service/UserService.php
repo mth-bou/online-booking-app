@@ -2,16 +2,18 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Model\User;
-use App\Domain\Repository\NotificationRepositoryInterface;
-use App\Domain\Repository\ReservationRepositoryInterface;
-use App\Domain\Repository\ReviewRepositoryInterface;
-use App\Domain\Repository\UserRepositoryInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Exception;
+use DateTimeImmutable;
+use App\Domain\Model\User;
+use App\Application\Port\UserUseCaseInterface;
+use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\Repository\ReviewRepositoryInterface;
+use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\Repository\NotificationRepositoryInterface;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserService
+class UserService implements UserUseCaseInterface
 {
     private UserRepositoryInterface $userRepository;
     private ReservationRepositoryInterface $reservationRepository;
@@ -39,7 +41,7 @@ class UserService
         string $password,
         ?string $firstname,
         ?string $lastname,
-        ?string $phonNumber
+        ?string $phoneNumber
         ): User
     {
         if ($this->userRepository->emailExists($email)) {
@@ -50,7 +52,7 @@ class UserService
         $user->setEmail($email);
         $user->setFirstname($firstname);
         $user->setLastname($lastname);
-        $user->setPhoneNumber($phonNumber);
+        $user->setPhoneNumber($phoneNumber);
         $user->setPassword($this->passwordHasher->hashPassword($user, $password));
 
         $this->userRepository->save($user);
@@ -92,6 +94,8 @@ class UserService
         if (isset($data['phoneNumber'])) $user->setPhoneNumber($data['phoneNumber']);
 
         if (isset($data['password'])) $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
+
+        $user->setUpdatedAt(new DateTimeImmutable());
 
         $this->userRepository->save($user);
 
