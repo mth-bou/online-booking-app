@@ -27,14 +27,27 @@ class ReservationController extends AbstractController
     public function createReservation(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $dto = new ReservationRequestDTO($data['userId'] ?? 0, $data['tableId'] ?? 0, $data['timeSlotId'] ?? 0);
+
+        $dto = new ReservationRequestDTO(
+            $data['userId'] ?? 0,
+            $data['tableId'] ?? 0,
+            $data['timeSlotId'] ?? 0,
+            $data['status'] ?? null
+        );
+
         $errors = $this->validator->validate($dto);
 
         if ($errors->count() > 0) {
             return new JsonResponse(['error' => (string) $errors], Response::HTTP_BAD_REQUEST);
         }
 
-        $reservation = $this->reservationService->createReservation($dto->userId, $dto->tableId, $dto->timeSlotId);
+        $reservation = $this->reservationService->createReservation(
+            $dto->userId,
+            $dto->tableId,
+            $dto->timeSlotId,
+            $dto->status,
+        );
+
         return new JsonResponse(new ReservationResponseDTO($reservation), Response::HTTP_CREATED);
     }
 
@@ -50,5 +63,19 @@ class ReservationController extends AbstractController
     {
         $this->reservationService->confirmReservation($id);
         return new JsonResponse(['message' => 'Reservation confirmed.'], Response::HTTP_OK);
+    }
+
+    #[Route('/reservations/user/{userId}', methods: ['GET'])]
+    public function getUserReservations(int $userId): JsonResponse
+    {
+        $reservations = $this->reservationService->getUserReservations($userId);
+        return new JsonResponse(array_map(fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
+    }
+
+    #[Route('/reservations/restaurant/{restaurantId}', methods: ['GET'])]
+    public function getRestaurantReservations(int $restaurantId): JsonResponse
+    {
+        $reservations = $this->reservationService->getRestaurantReservations($restaurantId);
+        return new JsonResponse(array_map(fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
     }
 }

@@ -31,7 +31,7 @@ class ReservationService implements ReservationUseCaseInterface
         $this->userRepository = $userRepository;
     }
 
-    public function createReservation(int $userId, int $tableId, int $timeSlotId): Reservation
+    public function createReservation(int $userId, int $tableId, int $timeSlotId, ?string $status = null): Reservation
     {
         $user = $this->userRepository->findById($userId);
         $table = $this->tableRepository->findById($tableId);
@@ -54,7 +54,7 @@ class ReservationService implements ReservationUseCaseInterface
         $reservation->setUser($user);
         $reservation->setTable($table);
         $reservation->setTimeSlot($timeSlot);
-        $reservation->setStatus(StatusEnum::PENDING->value);
+        $reservation->setStatus($status ?? StatusEnum::PENDING->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());
 
         $this->reservationRepository->save($reservation);

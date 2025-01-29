@@ -33,6 +33,7 @@ class ReservationResponseDTO
                 'amount' => $payment->getAmount(),
                 'paymentMethod' => $payment->getPaymentMethod(),
                 'status' => $payment->getStatus(),
+                'isConfirmed' => $payment->getStatus() === 'CONFIRMED',
                 'paymentDate' => $payment->getPaymentDate()?->format('Y-m-d H:i:s'),
             ];
         }

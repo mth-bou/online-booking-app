@@ -6,7 +6,7 @@ use App\Domain\Model\Reservation;
 
 interface ReservationUseCaseInterface
 {
-    public function createReservation(int $userId, int $tableId, int $timeSlotId): Reservation;
+    public function createReservation(int $userId, int $tableId, int $timeSlotId, ?string $status = null): Reservation;
 
     public function cancelReservation(int $reservationId): void;
 
