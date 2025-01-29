@@ -2,13 +2,14 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\NotificationUseCaseInterface;
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Notification;
 use App\Domain\Repository\NotificationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class NotificationService
+class NotificationService implements NotificationUseCaseInterface
 {
     private NotificationRepositoryInterface $notificationRepository;
     private UserRepositoryInterface $userRepository;
