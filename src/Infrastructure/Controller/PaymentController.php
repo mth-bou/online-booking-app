@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\DTO\Payment\PaymentResponseDTO;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class PaymentController extends AbstractController
 {
@@ -31,16 +32,14 @@ class PaymentController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        try {
-            $paymentMethod = PaymentMethodEnum::from($data['paymentMethod'] ?? '');
-        } catch (\ValueError $e) {
+        if (!isset($data['paymentMethod']) || !PaymentMethodEnum::isValid($data['paymentMethod'])) {
             return new JsonResponse(['error' => 'Invalid payment method.'], Response::HTTP_BAD_REQUEST);
         }
 
         $dto = new PaymentRequestDTO(
             $data['reservationId'] ?? 0,
             $data['amount'] ?? 0,
-            $paymentMethod
+            $data['paymentMethod']
         );
         
         $errors = $this->validator->validate($dto);
@@ -49,21 +48,39 @@ class PaymentController extends AbstractController
             return new JsonResponse(['error' => (string) $errors], Response::HTTP_BAD_REQUEST);
         }
 
-        $payment = $this->paymentService->processPayment($dto->reservationId, $dto->amount, $dto->paymentMethod);
-        return new JsonResponse(new PaymentResponseDTO($payment), Response::HTTP_CREATED);
+        try {
+            $payment = $this->paymentService->processPayment(
+                $dto->reservationId,
+                $dto->amount,
+                $dto->paymentMethod
+            );
+            return new JsonResponse(new PaymentResponseDTO($payment), Response::HTTP_CREATED);
+        } catch (NotFoundResourceException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        } catch (\InvalidArgumentException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     #[Route('/payments/{id}/confirm', methods: ['PATCH'])]
     public function confirmPayment(int $id): JsonResponse
     {
-        $this->paymentService->confirmPayment($id);
-        return new JsonResponse(['message' => 'Payment confirmed.'], Response::HTTP_OK);
+        try {
+            $this->paymentService->confirmPayment($id);
+            return new JsonResponse(['message' => 'Payment confirmed.'], Response::HTTP_OK);
+        } catch (NotFoundResourceException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 
     #[Route('/payments/{id}/refund', methods: ['PATCH'])]
     public function refundPayment(int $id): JsonResponse
     {
-        $this->paymentService->refundPayment($id);
-        return new JsonResponse(['message'=> 'Payment refunded.'], Response::HTTP_OK);
+        try {
+            $this->paymentService->refundPayment($id);
+            return new JsonResponse(['message'=> 'Payment refunded.'], Response::HTTP_OK);
+        } catch (NotFoundResourceException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 }

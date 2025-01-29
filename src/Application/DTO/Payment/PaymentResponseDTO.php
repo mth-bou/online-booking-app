@@ -3,7 +3,6 @@
 namespace App\Application\DTO\Payment;
 
 use App\Domain\Model\Payment;
-use DateTimeImmutable;
 
 class PaymentResponseDTO
 {
@@ -13,18 +12,18 @@ class PaymentResponseDTO
     public string $paymentMethod;
     public string $status;
     public string $paymentDate;
-    public DateTimeImmutable $createdAt;
-    public DateTimeImmutable $updatedAt;
+    public string $createdAt;
+    public string $updatedAt;
 
     public function __construct(Payment $payment)
     {
         $this->id = $payment->getId();
         $this->reservationId = $payment->getReservation()->getId();
         $this->amount = $payment->getAmount();
-        $this->paymentMethod = $payment->getPaymentMethod();
+        $this->paymentMethod = $payment->getPaymentMethod()->value; // Conversion en string
         $this->status = $payment->getStatus();
-        $this->paymentDate = $payment->getPaymentDate()->format('Y-m-d H:i:s');
-        $this->createdAt = $payment->getCreatedAt();
-        $this->updatedAt = $payment->getUpdatedAt();
+        $this->paymentDate = $payment->getPaymentDate()?->format('Y-m-d H:i:s') ?? 'N/A';
+        $this->createdAt = $payment->getCreatedAt()->format('Y-m-d H:i:s');
+        $this->updatedAt = $payment->getUpdatedAt()->format('Y-m-d H:i:s');
     }
 }

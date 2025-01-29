@@ -24,17 +24,21 @@ class PaymentService implements PaymentUseCaseInterface
         $this->reservationRepository = $reservationRepository;
     }
 
-    public function processPayment(int $reservationId, float $amount, PaymentMethodEnum $paymentMethod): Payment
+    public function processPayment(int $reservationId, float $amount, string $paymentMethod): Payment
     {
         $reservation = $this->reservationRepository->findById($reservationId);
         if (!$reservation) {
             throw new NotFoundResourceException("Reservation not found.");
         }
 
+        if (!PaymentMethodEnum::isValid($paymentMethod)) {
+            throw new \InvalidArgumentException("Invalid payment method: " . $paymentMethod);
+        }
+
         $payment = $this->paymentRepository->createNew();
         $payment->setReservation($reservation);
         $payment->setAmount($amount);
-        $payment->setPaymentMethod($paymentMethod);
+        $payment->setPaymentMethod(PaymentMethodEnum::from($paymentMethod));
         $payment->setStatus(StatusEnum::PENDING->value);
         $payment->setPaymentDate(new DateTimeImmutable());
 
@@ -51,6 +55,7 @@ class PaymentService implements PaymentUseCaseInterface
         }
 
         $payment->setStatus(StatusEnum::COMPLETED->value);
+        $payment->setUpdatedAt(new DateTimeImmutable());
         $this->paymentRepository->save($payment);
     }
 
@@ -62,6 +67,7 @@ class PaymentService implements PaymentUseCaseInterface
         }
 
         $payment->setStatus(StatusEnum::REFUNDED->value);
+        $payment->setUpdatedAt(new DateTimeImmutable());
         $this->paymentRepository->save($payment);
     }
 }
