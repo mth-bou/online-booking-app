@@ -20,6 +20,12 @@ services:
             - '../src/Domain/Model/'
             - '../src/Kernel.php'
 
+    App\Application\DTO\:
+        resource: '../src/Application/DTO/'
+        autowire: false
+        autoconfigure: false
+        public: false
+
     App\Domain\Repository\ReservationRepositoryInterface:
         alias: App\Infrastructure\Persistence\Repository\ReservationRepository
         public: true
