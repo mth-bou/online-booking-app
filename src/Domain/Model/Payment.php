@@ -2,13 +2,14 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Enum\StatusEnum;
-use App\Domain\Model\Reservation;
-use App\Infrastructure\Persistence\Repository\PaymentRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
+use App\Domain\Enum\StatusEnum;
+use Doctrine\ORM\Mapping as ORM;
+use App\Domain\Model\Reservation;
+use App\Domain\Enum\PaymentMethodEnum;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Infrastructure\Persistence\Repository\PaymentRepository;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -30,7 +31,8 @@ class Payment
     private string $status = StatusEnum::PENDING->value;
 
     #[ORM\Column(length: 50)]
-    private ?string $paymentMethod = null;
+    #[Assert\Choice(callback: [PaymentMethodEnum::class, 'casesAsArray'], message: "Invalid payment method.")]
+    private ?PaymentMethodEnum $paymentMethod = null;
 
     #[ORM\Column]
     private DateTimeImmutable $createdAt;
@@ -95,13 +97,17 @@ class Payment
         return $this;
     }
 
-    public function getPaymentMethod(): ?string
+    public function getPaymentMethod(): ?PaymentMethodEnum
     {
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(string $paymentMethod): static
+    public function setPaymentMethod(PaymentMethodEnum $paymentMethod): static
     {
+        if (!PaymentMethodEnum::isValid($paymentMethod->value)) {
+            throw new \InvalidArgumentException("Invalid payment method: " . $paymentMethod);
+        }
+
         $this->paymentMethod = $paymentMethod;
 
         return $this;

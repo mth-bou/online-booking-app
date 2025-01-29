@@ -2,14 +2,16 @@
 
 namespace App\Application\Service;
 
+use App\Application\Port\PaymentUseCaseInterface;
 use App\Domain\Enum\StatusEnum;
 use App\Domain\Model\Payment;
 use App\Domain\Repository\PaymentRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use DateTimeImmutable;
+use App\Domain\Enum\PaymentMethodEnum;
 
-class PaymentService
+class PaymentService implements PaymentUseCaseInterface
 {
     private PaymentRepositoryInterface $paymentRepository;
     private ReservationRepositoryInterface $reservationRepository;
@@ -22,7 +24,7 @@ class PaymentService
         $this->reservationRepository = $reservationRepository;
     }
 
-    public function processPayment(int $reservationId, float $amount, string $paymentMethod): Payment
+    public function processPayment(int $reservationId, float $amount, PaymentMethodEnum $paymentMethod): Payment
     {
         $reservation = $this->reservationRepository->findById($reservationId);
         if (!$reservation) {
