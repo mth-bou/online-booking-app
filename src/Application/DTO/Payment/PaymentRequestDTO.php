@@ -6,7 +6,6 @@ use App\Domain\Enum\PaymentMethodEnum;
 use Symfony\Component\Validator\Constraints as Assert;
 use OpenApi\Attributes as OA;
 
-#[OA\Schema]
 class PaymentRequestDTO
 {
     #[OA\Property(type: "integer", example: 123)]

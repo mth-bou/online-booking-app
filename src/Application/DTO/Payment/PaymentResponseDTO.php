@@ -37,7 +37,7 @@ class PaymentResponseDTO
         $this->id = $payment->getId();
         $this->reservationId = $payment->getReservation()->getId();
         $this->amount = $payment->getAmount();
-        $this->paymentMethod = $payment->getPaymentMethod()->value; // Conversion en string
+        $this->paymentMethod = $payment->getPaymentMethod()->value;
         $this->status = $payment->getStatus();
         $this->paymentDate = $payment->getPaymentDate()?->format('Y-m-d H:i:s') ?? 'N/A';
         $this->createdAt = $payment->getCreatedAt()->format('Y-m-d H:i:s');

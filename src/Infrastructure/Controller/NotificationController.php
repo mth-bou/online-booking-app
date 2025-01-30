@@ -34,13 +34,7 @@ class NotificationController extends AbstractController
         summary: "Create and send a notification",
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(
-                properties: [
-                    new OA\Property(property: "userId", type: "integer", example: 1),
-                    new OA\Property(property: "message", type: "string", example: "Hello World"),
-                    new OA\Property(property: "type", type: "string", example: "info")
-                ]
-            )
+            content: new OA\JsonContent(ref: new Model(type: NotificationRequestDTO::class))
         ),
         responses: [
             new OA\Response(
