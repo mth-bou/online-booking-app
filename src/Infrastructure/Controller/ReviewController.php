@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Controller;
 
+use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +13,9 @@ use App\Application\DTO\Review\ReviewResponseDTO;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use OpenApi\Attributes as OA;
 
+#[OA\Tag(name: "Reviews")]
 class ReviewController extends AbstractController
 {
     private ReviewUseCaseInterface $reviewService;
@@ -27,6 +30,22 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/reviews', methods: ['POST'])]
+    #[OA\Post(
+        path: "/reviews",
+        summary: "Add a new review",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(ref: new Model(type: ReviewRequestDTO::class))
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Review created",
+                content: new OA\JsonContent(ref: new Model(type: ReviewResponseDTO::class))
+            ),
+            new OA\Response(response: 400, description: "Invalid input data")
+        ]
+    )]
     public function addReview(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -57,7 +76,22 @@ class ReviewController extends AbstractController
         }
     }
 
-    #[Route('/restaurants/{id}/reviews', methods: ['GET'])]
+    #[Route('/reviews/restaurant/{id}', methods: ['GET'])]
+    #[OA\Get(
+        path: "/reviews/restaurant/{id}",
+        summary: "Get reviews for a restaurant",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "List of reviews",
+                content: new OA\JsonContent(type: "array", items: new OA\Items(ref: new Model(type: ReviewResponseDTO::class))),
+            ),
+            new OA\Response(response: 404, description: "Restaurant not found")
+        ]
+    )]
     public function getRestaurantReviews(int $id): JsonResponse
     {
         try {
@@ -68,7 +102,22 @@ class ReviewController extends AbstractController
         }
     }
 
-    #[Route('/users/{id}/reviews', methods: ['GET'])]
+    #[Route('/reviews/users/{id}', methods: ['GET'])]
+    #[OA\Get(
+        path: "/reviews/users/{id}",
+        summary: "Get reviews by a user",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "List of user reviews",
+                content: new OA\JsonContent(type: "array", items: new OA\Items(ref: new Model(type: ReviewResponseDTO::class)))
+            ),
+            new OA\Response(response: 404, description: "User not found")
+        ]
+    )]
     public function getUserReviews(int $id): JsonResponse
     {
         try {
@@ -79,10 +128,33 @@ class ReviewController extends AbstractController
         }
     }
 
-    #[Route('/restaurants/{id}/rating', methods: ['GET'])]
+    #[Route('/reviews/restaurants/{id}/rating', methods: ['GET'])]
+    #[OA\Get(
+        path: "/reviews/restaurants/{id}/rating",
+        summary: "Get average rating of a restaurant",
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Average rating",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "averageRating", type: "number", format: "float", example: 4.5)
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: "Restaurant not found")
+        ]
+    )]
     public function getAverageRating(int $id): JsonResponse
     {
-        $rating = $this->reviewService->getAverageRating($id);
-        return new JsonResponse(['averageRating' => $rating ?? 0.0], Response::HTTP_OK);
+        try {
+            $rating = $this->reviewService->getAverageRating($id);
+            return new JsonResponse(['averageRating' => $rating ?? 0.0], Response::HTTP_OK);
+        } catch (NotFoundResourceException $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 }

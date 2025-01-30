@@ -2,7 +2,7 @@ nelmio_api_doc:
     documentation:
         info:
             title: Online Booking API
-            description: Documentation de l'API pour la gestion de réservation de restaurants
+            description: Restaurant reservation API documentation
             version: 1.0.0
     areas: # to filter documented areas
         path_patterns:

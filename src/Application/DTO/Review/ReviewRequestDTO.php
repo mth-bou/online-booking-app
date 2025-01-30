@@ -3,17 +3,21 @@
 namespace App\Application\DTO\Review;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use OpenApi\Attributes as OA;
 
 class ReviewRequestDTO
 {
+    #[OA\Property(type: "integer", example: 1)]
     #[Assert\NotBlank]
     #[Assert\Positive]
     public int $userId;
 
+    #[OA\Property(type: "integer", example: 10)]
     #[Assert\NotBlank]
     #[Assert\Positive]
     public int $restaurantId;
 
+    #[OA\Property(type: "integer", example: 5)]
     #[Assert\NotBlank]
     #[Assert\Range(
         min: 1,
@@ -22,6 +26,7 @@ class ReviewRequestDTO
     )]
     public int $rating;
 
+    #[OA\Property(type: "string", example: "Amazing food!", nullable: true)]
     #[Assert\Length(max: 255)]
     public ?string $comment;
 

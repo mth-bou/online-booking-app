@@ -3,18 +3,38 @@
 namespace App\Application\DTO\Review;
 
 use App\Domain\Model\Review;
+use OpenApi\Attributes as OA;
 
 class ReviewResponseDTO
 {
+    #[OA\Property(type: "integer", example: 1)]
     public int $id;
+
+    #[OA\Property(type: "integer", example: 1)]
     public int $userId;
+
+    #[OA\Property(type: "string", example: "John")]
     public string $firstname;
+
+    #[OA\Property(type: "string", example: "Doe")]
     public string $lastname;
+
+    #[OA\Property(type: "integer", example: 10)]
     public int $restaurantId;
+
+    #[OA\Property(type: "string", example: "Le Gourmet")]
     public string $restaurantName;
+
+    #[OA\Property(type: "integer", example: 5)]
     public int $rating;
+
+    #[OA\Property(type: "string", example: "Amazing food!", nullable: true)]
     public ?string $comment;
+
+    #[OA\Property(type: "string", format: "date-time", example: "2023-10-15 14:23:00")]
     public string $createdAt;
+
+    #[OA\Property(type: "string", format: "date-time", example: "2023-10-15 14:23:00")]
     public string $updatedAt;
 
     public function __construct(Review $review)

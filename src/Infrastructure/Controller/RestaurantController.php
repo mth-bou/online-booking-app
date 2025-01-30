@@ -213,46 +213,4 @@ class RestaurantController extends AbstractController
         $tables = $this->restaurantService->getRestaurantTables($id);
         return new JsonResponse($tables, Response::HTTP_OK);
     }
-
-    #[Route('/restaurants/{id}/reviews', methods: ['GET'])]
-    #[OA\Get(
-        path: "/restaurants/{id}/reviews",
-        summary: "Get reviews for a restaurant",
-        parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
-        ],
-        responses: [
-            new OA\Response(response: 200, description: "List of reviews")
-        ]
-    )]
-    public function getRestaurantReviews(int $id): JsonResponse
-    {
-        $reviews = $this->restaurantService->getRestaurantReviews($id);
-        return new JsonResponse($reviews, Response::HTTP_OK);
-    }
-
-    #[Route('/restaurants/{id}/rating', methods: ['GET'])]
-    #[OA\Get(
-        path: "/restaurants/{id}/rating",
-        summary: "Get average rating for a restaurant",
-        parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: "Average rating",
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: "averageRating", type: "number", format: "float", example: 4.5)
-                    ]
-                )
-            )
-        ]
-    )]
-    public function getAverageRating(int $id): JsonResponse
-    {
-        $rating = $this->restaurantService->calculateAverageRating($id);
-        return new JsonResponse(['averageRating' => $rating], Response::HTTP_OK);
-    }
 }
