@@ -2,7 +2,7 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Enum\StatusEnum;
+use App\Domain\Enum\NotificationStatusEnum;
 use App\Domain\Model\User;
 use App\Infrastructure\Persistence\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +11,16 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Table(
+    name: 'notification',
+    indexes: [
+        new ORM\Index(name: 'IDX_NOTIFICATION_USER', columns: ['user_id']),
+        new ORM\Index(name: 'IDX_NOTIFICATION_STATUS', columns: ['status'])
+    ],
+    options: [
+        "check" => "status IN ('PENDING', 'SENT', 'FAILED') AND created_at <= updated_at"
+    ]
+)]
 class Notification
 {
     #[ORM\Id]
@@ -25,20 +35,20 @@ class Notification
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Choice(callback: [StatusEnum::class, 'casesAsArray'], message: "Invalid Status.")]
-    private ?string $status = StatusEnum::PENDING->value;
+    #[Assert\Choice(callback: [NotificationStatusEnum::class, 'casesAsArray'], message: "Invalid Status.")]
+    private ?string $status = NotificationStatusEnum::PENDING->value;
 
     #[ORM\Column]
     private bool $isRead = false;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "created_at")]
     private DateTimeImmutable $createdAt;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "updated_at")]
     private DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
     private ?User $_user = null;
 
     public function __construct()
@@ -84,7 +94,7 @@ class Notification
 
     public function setStatus(string $status): static
     {
-        if (!StatusEnum::isValid($status)) {
+        if (!NotificationStatusEnum::isValid($status)) {
             throw new \InvalidArgumentException("Invalid status: " . $status);
         }
 

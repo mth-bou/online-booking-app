@@ -11,6 +11,12 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Table(
+    name: 'review',
+    indexes: [
+        new ORM\Index(name: 'IDX_REVIEW_USER', columns: ['user_id'])
+    ]
+)]
 class Review
 {
     #[ORM\Id]

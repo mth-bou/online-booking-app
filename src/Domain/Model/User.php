@@ -13,7 +13,20 @@ use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(
+    name: '`user`',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'UNIQ_USER_EMAIL', columns: ['email'])
+    ],
+    indexes: [
+        new ORM\Index(name: 'IDX_USER_PHONE', columns: ['phone_number'])
+    ],
+    // - Email must be longer than 5 characters
+    // - Creation date must be before or equal to the update date
+    options: [
+        "check" => "LENGTH(email) > 5 AND created_at <= updated_at"
+    ]
+)]
 class User implements SymfonyUserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -33,16 +46,16 @@ class User implements SymfonyUserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length:20, nullable: true)]
+    #[ORM\Column(name: 'phone_number', length:20, nullable: true)]
     private ?string $phoneNumber = null;
 
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column]
+    #[ORM\Column(name: "created_at")]
     private DateTimeImmutable $createdAt;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "updated_at")]
     private DateTimeImmutable $updatedAt;
 
     /**
