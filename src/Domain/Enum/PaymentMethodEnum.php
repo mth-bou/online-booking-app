@@ -4,9 +4,9 @@ namespace App\Domain\Enum;
 
 enum PaymentMethodEnum: string
 {
-    case CREDIT_CARD = 'credit_card';
-    case PAYPAL = 'paypal';
-    case BANK_TRANSFER = 'bank_transfer';
+    case CREDIT_CARD = 'CREDIT_CARD';
+    case PAYPAL = 'PAYPAL';
+    case BANK_TRANSFER = 'BANK_TRANSFER';
 
     public static function casesAsArray(): array
     {

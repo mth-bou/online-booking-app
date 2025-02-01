@@ -13,6 +13,16 @@ use App\Infrastructure\Persistence\Repository\PaymentRepository;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Table(
+    name: 'payment',
+    indexes: [
+        new ORM\Index(name: 'IDX_PAYMENT_RESERVATION', columns: ['reservation_id']),
+        new ORM\Index(name: 'IDX_PAYMENT_STATUS', columns: ['status'])
+    ],
+    options: [
+        "check" => "amount >= 0 AND status IN ('PENDING', 'COMPLETED', 'FAILED', 'CANCELED', 'REFUNDED', 'REJECTED')"
+    ]
+)]
 class Payment
 {
     #[ORM\Id]
@@ -41,7 +51,7 @@ class Payment
     private DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(inversedBy: 'payments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'reservation_id', referencedColumnName: 'id', nullable: false)]
     private ?Reservation $reservation = null;
 
     public function __construct()
