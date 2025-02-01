@@ -21,10 +21,10 @@ class TimeSlot
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'time')]
     private DateTimeInterface $startTime;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'time')]
     private DateTimeInterface $endTime;
 
     #[ORM\Column]

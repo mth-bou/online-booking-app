@@ -27,6 +27,9 @@ class Table
     #[Assert\Positive(message: "Capacity should be positive number.")]
     private ?int $capacity = null;
 
+    #[ORM\Column]
+    private ?bool $isApproved = false;
+
     #[ORM\ManyToOne(inversedBy: 'tables')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Restaurant $restaurant = null;
@@ -95,7 +98,7 @@ class Table
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
-            $reservation->setTable($this);
+            $reservation->setRestaurantTable($this);
         }
 
         return $this;
@@ -105,8 +108,8 @@ class Table
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getTable() === $this) {
-                $reservation->setTable(null);
+            if ($reservation->getRestaurantTable() === $this) {
+                $reservation->setRestaurantTable(null);
             }
         }
 

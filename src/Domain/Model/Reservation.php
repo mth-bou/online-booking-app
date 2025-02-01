@@ -28,9 +28,6 @@ class Reservation
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\Choice(callback: [StatusEnum::class, 'casesAsArray'], message: "Invalid Status.")]
     private ?string $status = StatusEnum::PENDING->value;
@@ -46,7 +43,7 @@ class Reservation
     private ?TimeSlot $timeSlot = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false, name: 'restaurant_table_id')]
+    #[ORM\JoinColumn(nullable: true, name: 'restaurant_table_id')]
     private ?Table $restaurantTable = null;
 
     /**
@@ -54,6 +51,10 @@ class Reservation
      */
     #[ORM\OneToMany(targetEntity: Payment::class, mappedBy: 'reservation')]
     private Collection $payments;
+
+    #[ORM\ManyToOne(targetEntity: Restaurant::class, inversedBy: 'reservations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Restaurant $restaurant = null;
 
     public function __construct()
     {
@@ -76,18 +77,6 @@ class Reservation
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): static
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -150,12 +139,12 @@ class Reservation
         return $this;
     }
 
-    public function getTable(): ?Table
+    public function getRestaurantTable(): ?Table
     {
         return $this->restaurantTable;
     }
 
-    public function setTable(?Table $restaurantTable): static
+    public function setRestaurantTable(?Table $restaurantTable): static
     {
         $this->restaurantTable = $restaurantTable;
 

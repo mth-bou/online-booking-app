@@ -2,13 +2,14 @@
 
 namespace App\Domain\Model;
 
-use App\Domain\Model\Review;
+use DateTimeImmutable;
 use App\Domain\Model\Table;
+use App\Domain\Model\Review;
 use App\Domain\Model\TimeSlot;
-use App\Infrastructure\Persistence\Repository\RestaurantRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Infrastructure\Persistence\Repository\RestaurantRepository;
 
 #[ORM\Entity(repositoryClass: RestaurantRepository::class)]
 class Restaurant
@@ -39,6 +40,12 @@ class Restaurant
     #[ORM\Column(length: 20)]
     private ?string $phoneNumber = null;
 
+    #[ORM\Column]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column]
+    private DateTimeImmutable $updatedAt;
+
     /**
      * @var Collection<int, Table>
      */
@@ -51,11 +58,19 @@ class Restaurant
     #[ORM\OneToMany(targetEntity: TimeSlot::class, mappedBy: 'restaurant', orphanRemoval: true, fetch: 'EAGER')]
     private Collection $timeSlots;
 
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'restaurant')]
+    private Collection $reservations;
+
     public function __construct()
     {
         $this->tables = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->timeSlots = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+
+        $now = new DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
     public function getId(): ?int
@@ -143,6 +158,30 @@ class Restaurant
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

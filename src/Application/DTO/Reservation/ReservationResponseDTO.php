@@ -49,7 +49,7 @@ class ReservationResponseDTO
     {
         $this->id = $reservation->getId();
         $this->userId = $reservation->getUser()->getId();
-        $this->tableId = $reservation->getTable()->getId();
+        $this->tableId = $reservation->getRestaurantTable()->getId();
         $this->timeSlotId = $reservation->getTimeSlot()->getId();
         $this->status = $reservation->getStatus();
         $this->createdAt = $reservation->getCreatedAt()->format('Y-m-d H:i:s');

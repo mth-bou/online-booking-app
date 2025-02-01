@@ -52,7 +52,7 @@ class ReservationService implements ReservationUseCaseInterface
 
         $reservation = $this->reservationRepository->createNew();
         $reservation->setUser($user);
-        $reservation->setTable($table);
+        $reservation->setRestaurantTable($table);
         $reservation->setTimeSlot($timeSlot);
         $reservation->setStatus($status ?? StatusEnum::PENDING->value);
         $reservation->setUpdatedAt(new DateTimeImmutable());

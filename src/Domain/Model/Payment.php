@@ -23,7 +23,7 @@ class Payment
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $paymentDate = null;
 
-    #[ORM\Column(type: Types::FLOAT, precision: 5, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
     private ?float $amount = null;
 
     #[ORM\Column(length: 50)]
