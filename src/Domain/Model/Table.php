@@ -74,6 +74,18 @@ class Table
         return $this;
     }
 
+    public function getIsApproved(): ?bool
+    {
+        return $this->isApproved;
+    }
+
+    public function setIsApproved(?bool $isApproved): static
+    {
+        $this->isApproved = $isApproved;
+
+        return $this;
+    }
+
     public function getRestaurant(): ?Restaurant
     {
         return $this->restaurant;
