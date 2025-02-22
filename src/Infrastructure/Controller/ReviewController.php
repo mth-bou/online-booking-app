@@ -5,7 +5,7 @@ namespace App\Infrastructure\Controller;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Port\ReviewUseCaseInterface;
 use App\Application\DTO\Review\ReviewRequestDTO;
@@ -48,7 +48,7 @@ class ReviewController extends AbstractController
     )]
     public function addReview(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $dto = new ReviewRequestDTO(
             $data['userId'] ?? 0,
@@ -96,7 +96,7 @@ class ReviewController extends AbstractController
     {
         try {
             $reviews = $this->reviewService->getRestaurantReviews($id);
-            return new JsonResponse(array_map(fn($r) => new ReviewResponseDTO($r), $reviews), Response::HTTP_OK);
+            return new JsonResponse(array_map(static fn($r) => new ReviewResponseDTO($r), $reviews), Response::HTTP_OK);
         } catch (NotFoundResourceException $e) {
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
@@ -122,7 +122,7 @@ class ReviewController extends AbstractController
     {
         try {
             $reviews = $this->reviewService->getUserReviews($id);
-            return new JsonResponse(array_map(fn($r) => new ReviewResponseDTO($r), $reviews), Response::HTTP_OK);
+            return new JsonResponse(array_map(static fn($r) => new ReviewResponseDTO($r), $reviews), Response::HTTP_OK);
         } catch (NotFoundResourceException $e) {
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }

@@ -11,7 +11,7 @@ use App\Application\DTO\User\UserResponseDTO;
 use Symfony\Component\HttpFoundation\Request;
 use App\Application\Port\UserUseCaseInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +49,7 @@ class UserController extends AbstractController
     )]
     public function createUser(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $dto = new UserRequestDTO(
             $data['email'] ?? '',
             $data['password'] ?? '',
@@ -104,9 +104,6 @@ class UserController extends AbstractController
     #[OA\Patch(
         path: "/users/{id}",
         summary: "Update a user",
-        parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
-        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -119,6 +116,9 @@ class UserController extends AbstractController
                 ]
             )
         ),
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -130,7 +130,7 @@ class UserController extends AbstractController
     )]
     public function updateUser(int $id, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         $user = $this->userService->updateUser($id, $data);
 
         return new JsonResponse(new UserResponseDTO($user), Response::HTTP_OK);

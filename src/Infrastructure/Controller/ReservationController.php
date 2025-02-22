@@ -8,7 +8,7 @@ use App\Application\DTO\Reservation\ReservationResponseDTO;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,7 +45,7 @@ class ReservationController extends AbstractController
     )]
     public function createReservation(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $dto = new ReservationRequestDTO(
             $data['userId'] ?? 0,
@@ -125,7 +125,7 @@ class ReservationController extends AbstractController
     public function getUserReservations(int $userId): JsonResponse
     {
         $reservations = $this->reservationService->getUserReservations($userId);
-        return new JsonResponse(array_map(fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
+        return new JsonResponse(array_map(static fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
     }
 
     #[Route('/reservations/restaurant/{restaurantId}', methods: ['GET'])]
@@ -147,6 +147,6 @@ class ReservationController extends AbstractController
     public function getRestaurantReservations(int $restaurantId): JsonResponse
     {
         $reservations = $this->reservationService->getRestaurantReservations($restaurantId);
-        return new JsonResponse(array_map(fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
+        return new JsonResponse(array_map(static fn($r) => new ReservationResponseDTO($r), $reservations), Response::HTTP_OK);
     }
 }

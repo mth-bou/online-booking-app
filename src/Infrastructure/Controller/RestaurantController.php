@@ -5,7 +5,7 @@ namespace App\Infrastructure\Controller;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Port\RestaurantUseCaseInterface;
 use App\Application\DTO\Restaurant\RestaurantRequestDTO;
@@ -48,7 +48,7 @@ class RestaurantController extends AbstractController
     )]
     public function createRestaurant(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $dto = new RestaurantRequestDTO(
             $data['name'] ?? '',
@@ -86,13 +86,13 @@ class RestaurantController extends AbstractController
     #[OA\Patch(
         path: "/restaurants/{id}",
         summary: "Update a restaurant",
-        parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
-        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent()
         ),
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
         responses: [
             new OA\Response(response: 200, description: "Restaurant updated", content: new OA\JsonContent(ref: new Model(type: RestaurantResponseDTO::class))),
             new OA\Response(response: 404, description: "Restaurant not found"),
@@ -101,7 +101,7 @@ class RestaurantController extends AbstractController
     )]
     public function updateRestaurant(int $id, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         try {
             $restaurant = $this->restaurantService->updateRestaurant($id, $data);
@@ -172,7 +172,7 @@ class RestaurantController extends AbstractController
     public function getAllRestaurants(): JsonResponse
     {
         $restaurants = $this->restaurantService->getAllRestaurants();
-        return new JsonResponse(array_map(fn($r) => new RestaurantResponseDTO($r), $restaurants), Response::HTTP_OK);
+        return new JsonResponse(array_map(static fn($r) => new RestaurantResponseDTO($r), $restaurants), Response::HTTP_OK);
     }
 
     #[Route('/restaurants/search', methods: ['GET'])]
@@ -194,7 +194,7 @@ class RestaurantController extends AbstractController
     {
         $keyword = $request->query->get('keyword', '');
         $restaurants = $this->restaurantService->searchRestaurants($keyword);
-        return new JsonResponse(array_map(fn($r) => new RestaurantResponseDTO($r), $restaurants), Response::HTTP_OK);
+        return new JsonResponse(array_map(static fn($r) => new RestaurantResponseDTO($r), $restaurants), Response::HTTP_OK);
     }
 
     #[Route('/restaurants/{id}/tables', methods: ['GET'])]

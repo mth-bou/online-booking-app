@@ -6,7 +6,7 @@ use App\Domain\Enum\PaymentMethodEnum;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Port\PaymentUseCaseInterface;
 use App\Application\DTO\Payment\PaymentRequestDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,7 +50,7 @@ class PaymentController extends AbstractController
     )]
     public function processPayment(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (!isset($data['paymentMethod']) || !PaymentMethodEnum::isValid($data['paymentMethod'])) {
             return new JsonResponse(['error' => 'Invalid payment method.'], Response::HTTP_BAD_REQUEST);

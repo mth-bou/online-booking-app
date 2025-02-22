@@ -7,7 +7,7 @@ use OpenApi\Attributes as OA;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use App\Application\Port\TimeSlotUseCaseInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\DTO\TimeSlot\TimeSlotRequestDTO;
@@ -49,7 +49,7 @@ class TimeSlotController extends AbstractController
     )]
     public function addTimeSlot(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         try {
             $startTime = new DateTimeImmutable($data['startTime']);
@@ -130,7 +130,7 @@ class TimeSlotController extends AbstractController
     {
         try {
             $timeSlots = $this->timeSlotService->getAvailableTimeSlots($restaurantId);
-            return new JsonResponse(array_map(fn($t) => new TimeSlotResponseDTO($t), $timeSlots), Response::HTTP_OK);
+            return new JsonResponse(array_map(static fn($t) => new TimeSlotResponseDTO($t), $timeSlots), Response::HTTP_OK);
         } catch (NotFoundResourceException $e) {
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
@@ -140,9 +140,6 @@ class TimeSlotController extends AbstractController
     #[OA\Patch(
         path: "/timeslots/{id}",
         summary: "Update a time slot",
-        parameters: [
-            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
-        ],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -153,6 +150,9 @@ class TimeSlotController extends AbstractController
                 ]
             )
         ),
+        parameters: [
+            new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -165,7 +165,7 @@ class TimeSlotController extends AbstractController
     )]
     public function updateTimeSlot(int $id, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         try {
             $startTime = isset($data['startTime']) ? new DateTimeImmutable($data['startTime']) : null;

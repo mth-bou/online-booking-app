@@ -5,7 +5,7 @@ namespace App\Infrastructure\Controller;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Application\Port\NotificationUseCaseInterface;
 use App\Application\DTO\Notification\NotificationRequestDTO;
@@ -47,7 +47,7 @@ class NotificationController extends AbstractController
     )]
     public function sendNotification(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $dto = new NotificationRequestDTO(
             $data['userId'] ?? 0,
@@ -119,10 +119,6 @@ class NotificationController extends AbstractController
     public function getNotification(int $id): JsonResponse
     {
         $notification = $this->notificationService->getNotificationById($id);
-
-        if (!$notification) {
-            return new JsonResponse(['error' => 'Notification not found.'], Response::HTTP_NOT_FOUND);
-        }
 
         return new JsonResponse(new NotificationResponseDTO($notification), Response::HTTP_OK);
     }

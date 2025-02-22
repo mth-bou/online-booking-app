@@ -10,7 +10,7 @@ use App\Application\DTO\Table\TableRequestDTO;
 use Symfony\Component\HttpFoundation\Response;
 use App\Application\DTO\Table\TableResponseDTO;
 use App\Application\Port\TableUseCaseInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +49,7 @@ class TableController extends AbstractController
     )]
     public function addTable(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         $dto = new TableRequestDTO(
             $data['restaurantId'] ?? 0,
